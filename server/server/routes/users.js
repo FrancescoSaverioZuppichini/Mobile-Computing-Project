@@ -31,18 +31,5 @@ router.put('/:id', async(req, res, next) => {
   }
 });
 
-router.post('/', async(req, res, next) => {
-  try {
-    const user = await User.findById(req.params.id)
-
-    const newUser = await user.save(req.body)
-
-    res.send(newUser);
-
-  } catch (err) {
-    next(err)
-  }
-});
-
 
 module.exports = router;

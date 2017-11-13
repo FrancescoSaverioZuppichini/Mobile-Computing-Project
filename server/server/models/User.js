@@ -4,24 +4,29 @@ var Schema = mongoose.Schema
 var bcrypt = require('bcrypt')
 
 var userSchema = new Schema({
-  name: {
+  // name: {
+  //   required: true,
+  //   type: String
+  // },
+  email: {
     required: true,
     type: String
   },
-  role: {
-    required: true,
-    type: String,    
-    enum: ['USER', 'VOLUNTEER']
-  }
+  password: { type : String}
+  // role: {
+  //   required: true,
+  //   type: String,    
+  //   enum: ['USER', 'VOLUNTEER']
+  // }
 })
 // hash password before store it 
-UserSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   
      if (!this.isModified("password")) {
          return next();
      }
      try {
-         const hash = await bcrypt.hashAsync(this.password, 16.5)
+         const hash = await bcrypt.hashSync(this.password, 11)
   
          this.password = hash
   
@@ -31,8 +36,10 @@ UserSchema.pre("save", async function (next) {
          next(err)
      }
   
-  });
+  })
 
-UserSchema.methods.passwordIsValid = bcrypt.compareAsync(password, this.password)
+userSchema.methods.passwordIsValid = (toCheck, valid) => bcrypt.compareSync(toCheck, valid)
+
+// userSchema.methods.sanitaze()
 
 module.exports = mongoose.model('User', userSchema);
