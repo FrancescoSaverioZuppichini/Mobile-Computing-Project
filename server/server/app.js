@@ -4,10 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose'
-)
+var mongoose = require('mongoose')
+var jwt = require('jsonwebtoken');
 var index = require('./routes/index');
 var users = require('./routes/users');
+
+var token = jwt.sign({ foo: 'bar' }, 'alessia');
+
 // connect app to our backend
 DB_URL = 'mongodb://localhost/test'
 mongoose.connect(DB_URL, { useMongoClient: true })
@@ -44,10 +47,9 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err);
 });
 
 module.exports = app;
