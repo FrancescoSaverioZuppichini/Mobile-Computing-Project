@@ -1,9 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const users = require('./users')
+const auth = require('./auth')
+const home = require('./home')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('API for the mobile computer project')
-});
-
-module.exports = router;
+module.exports = { users, auth, home }

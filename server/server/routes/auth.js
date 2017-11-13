@@ -12,7 +12,7 @@ router.put('/', async(req, res, next) => {
     const password = req.body.password
 
     const user = await User.findOne({ email : email })
-
+    // 
     if(!user.passwordIsValid(password, user.password)) throw Error('password not valid')
 
     req.user = user
@@ -36,6 +36,7 @@ router.post('/', async(req, res, next) => {
     res.send(newUser);
 
   } catch (err) {
+    console.log(err)
     next(err)
   }
 })

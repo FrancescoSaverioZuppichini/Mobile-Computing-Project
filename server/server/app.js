@@ -9,9 +9,7 @@ var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 var middlewares = require('./middlewares')
 
-var index = require('./routes/index');
-var auth = require('./routes/auth');
-var users = require('./routes/users');
+const routers = require('./routes/index')
 
 // connect app to our backend
 DB_URL = 'mongodb://localhost/test'
@@ -34,11 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(bearerToken());
-app.use('/auth', auth);
+app.use('/auth', routers.auth);
+app.use('/api',bearerToken());
 app.use('/api', middlewares.JWTProtected)
-app.use('/api', index);
-app.use('/api/users', users);
+app.use('/api', routers.home);
+app.use('/api/users', routers.users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
