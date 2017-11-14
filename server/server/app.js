@@ -12,7 +12,7 @@ var middlewares = require('./middlewares')
 const routers = require('./routes/index')
 
 // connect app to our backend
-DB_URL = 'mongodb://localhost/test'
+DB_URL = process.env.NODE_ENV == 'test' ? 'mongodb://localhost/mobile_computing_test' :'mongodb://localhost/mobile_computing'
 mongoose.connect(DB_URL, { useMongoClient: true })
 .then( () => console.log(`mongo connected at ${DB_URL}`) )
 
