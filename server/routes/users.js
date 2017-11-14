@@ -10,6 +10,7 @@ router.get('/', async(req, res, next) => {
 
 router.get('/me', async(req, res, next) => {
   try {
+
     res.send(req.user);
     
   } catch (err) {
@@ -19,7 +20,7 @@ router.get('/me', async(req, res, next) => {
 
 router.put('/', async(req, res, next) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body)
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, { new: true } )
 
     res.send(updatedUser);
 
