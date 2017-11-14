@@ -6,14 +6,6 @@ var router = express.Router();
 // custom errors
 const errors = { EMAIL_ALREADY_IN_USE: { message: "Email already used" }, PASSWORD_NOT_VALID: { message: 'Password or Email not valid'} }
 
-// TODO let's keep it or no :) ?
-class AuthError extends Error {
-  constructor(status, message){
-    this.status = status || 500
-    this.message = message
-  }
-}
-
 // login
 router.put('/', async(req, res, next) => {
   
@@ -37,7 +29,7 @@ router.put('/', async(req, res, next) => {
 })
 // generate a token
 router.put('/', async (req, res, next) => {
-    res.json({ token: jwt.sign({data: req.user  }, 'alessia', { expiresIn: '1h' })} )
+    res.json({ token: jwt.sign({data: req.user  }, 'alessia', { expiresIn: '12h' })} )
 })
 // normal username/email registration
 router.post('/', async(req, res, next) => {
