@@ -2,9 +2,9 @@ var jwt = require('jsonwebtoken')
 
 function JWTProtected(req, res, next) {
   try {
-    if (!req.token) throw Error('Token not provided')
+    if (!req.token) throw { message: 'Token not provided' }
 
-    jwt.verify(req.token, 'alessia');
+    jwt.verify(req.token, process.env.TOKEN_SECRET);
 
     var decoded = jwt.decode(req.token, { complete: true })
     
@@ -12,6 +12,7 @@ function JWTProtected(req, res, next) {
     
     next()
   } catch (err) {
+    err.status = 401
     next(err)
   }
 }

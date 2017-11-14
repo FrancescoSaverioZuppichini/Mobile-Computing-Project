@@ -27,9 +27,6 @@ var userSchema = new Schema({
 // hash password before store it 
 userSchema.pre("save", async function (next) {
 
-  // if (!this.isModified("password")) {
-  //   return next()
-  // }
   try {
     var error = this.validateSync()
 
@@ -41,6 +38,7 @@ userSchema.pre("save", async function (next) {
     next()
 
   } catch (err) {
+    err.status = 400
     next(err)
   }
 })

@@ -29,7 +29,7 @@ router.put('/', async(req, res, next) => {
 })
 // generate a token
 router.put('/', async (req, res, next) => {
-    res.json({ token: jwt.sign({ data: req.user  }, 'alessia', { expiresIn: '12h' })} )
+    res.json({ token: jwt.sign({ data: req.user  }, process.env.TOKEN_SECRET, { expiresIn: '12h' })} )
 })
 // normal username/email registration
 router.post('/', async(req, res, next) => {
@@ -40,7 +40,7 @@ router.post('/', async(req, res, next) => {
 
     const newUser = await User(req.body).save()
 
-    res.send(newUser);
+    res.status(201).json(newUser)
 
   } catch (err) {
     next(err)

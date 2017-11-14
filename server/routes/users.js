@@ -11,7 +11,7 @@ router.get('/', async(req, res, next) => {
 router.get('/me', async(req, res, next) => {
   try {
 
-    res.send(req.user);
+    res.json(req.user);
     
   } catch (err) {
     next(err)
@@ -21,18 +21,12 @@ router.get('/me', async(req, res, next) => {
 router.put('/', async(req, res, next) => {
   try {
     var updatedUser = await User.findByIdAndUpdate(req.user._id,  {$set : req.body }, { new: true, runValidators: true })
+    
     updatedUser = await updatedUser.save()
-
-    // var updatedUser = await User.findById(req.user._id)
-
-    // updatedUser = Object.assign(updatedUser, req.body)
-
-    // updatedUser = await User(req.body).save()
     
     res.send(updatedUser);
 
   } catch (err) {
-    // console.log(err)
     next(err)
   }
 })

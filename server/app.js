@@ -10,7 +10,7 @@ var bearerToken = require('express-bearer-token');
 var middlewares = require('./middlewares')
 
 const routers = require('./routes/index')
-
+process.env.TOKEN_SECRET = 'alessia'
 // connect app to our backend TODO put it in a module
 DB_URL = process.env.NODE_ENV == 'test' ? 'mongodb://localhost/mobile_computing_test' : 'mongodb://localhost/mobile_computing'
 mongoose.connect(DB_URL, {
@@ -60,8 +60,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
   res.status(err.status || 500);
-  console.error(err)
-  res.send(err);
+  res.json(err);
 });
 
 module.exports = app;

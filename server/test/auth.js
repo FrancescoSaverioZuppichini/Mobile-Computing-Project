@@ -6,7 +6,7 @@ module.exports = function (chai, server, should) {
         .post('/auth/')
         .send(user)
         .end(function (err, res) {
-          res.should.have.status(200)
+          res.should.have.status(201)
           res.should.have.be.a('object')
           res.body.should.have.property('email').eql(user.email)
           done()
