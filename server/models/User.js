@@ -4,10 +4,6 @@ var Schema = mongoose.Schema
 var bcrypt = require('bcrypt')
 
 var userSchema = new Schema({
-  // name: {
-  //   required: true,
-  //   type: String
-  // },
   email: {
     required: true,
     type: String
@@ -20,19 +16,22 @@ var userSchema = new Schema({
     type: String,
     enum: ['USER', 'VOLUNTEER'],
     default: 'USER'
+  },
+  medicInfo: {
+    blood: {
+      type: String,
+      enum: [ 'O+', 'A+', 'B+', 'AB+', 'O-', 'A-', 'B-', 'AB']
+    } 
   }
 })
 // hash password before store it 
 userSchema.pre("save", async function (next) {
-
   if (!this.isModified("password")) {
     return next();
   }
   try {
     const hash = await bcrypt.hashSync(this.password, 11)
-
     this.password = hash
-
     next()
 
   } catch (err) {
