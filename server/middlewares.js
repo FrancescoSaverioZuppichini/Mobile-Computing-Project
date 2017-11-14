@@ -1,14 +1,18 @@
 var jwt = require('jsonwebtoken')
 
+const errors = { TOKEN_NOT_PROVIDED: { message: "Token not provided" }}
+
 function JWTProtected(req, res, next) {
   try {
-    if (!req.token) throw { message: 'Token not provided' }
+    if (!req.token) throw errors.TOKEN_NOT_PROVIDED
 
     jwt.verify(req.token, process.env.TOKEN_SECRET);
 
     var decoded = jwt.decode(req.token, { complete: true })
-    
+        
     req.user = decoded.payload.data
+    // password MUST not be showed to the client even if its hashed
+    delete req.user.password
     
     next()
   } catch (err) {

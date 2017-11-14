@@ -12,7 +12,7 @@ router.get('/me', async(req, res, next) => {
   try {
 
     res.json(req.user);
-    
+
   } catch (err) {
     next(err)
   }
@@ -20,10 +20,15 @@ router.get('/me', async(req, res, next) => {
 
 router.put('/', async(req, res, next) => {
   try {
-    var updatedUser = await User.findByIdAndUpdate(req.user._id,  {$set : req.body }, { new: true, runValidators: true })
-    
+    var updatedUser = await User.findByIdAndUpdate(req.user._id, {
+      $set: req.body
+    }, {
+      new: true,
+      runValidators: true
+    })
+
     updatedUser = await updatedUser.save()
-    
+
     res.send(updatedUser);
 
   } catch (err) {
