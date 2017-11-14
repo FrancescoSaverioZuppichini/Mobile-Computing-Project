@@ -6,30 +6,27 @@ const User = require('../models/User')
 router.get('/', async(req, res, next) => {
   const users = await User.find()
   res.send(users);
-});
+})
 
-router.get('/:id', async(req, res, next) => {
+router.get('/me', async(req, res, next) => {
   try {
-    const user = await User.findById(req.params.id)
-    res.send(user);
+    res.send(req.user);
     
   } catch (err) {
     next(err)
   }
-});
+})
 
-router.put('/:id', async(req, res, next) => {
+router.put('/', async(req, res, next) => {
   try {
-    const user = await User.findById(req.params.id)
-
-    const updatedUser = await user.save(req.body)
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body)
 
     res.send(updatedUser);
 
   } catch (err) {
     next(err)
   }
-});
+})
 
 
 module.exports = router;
