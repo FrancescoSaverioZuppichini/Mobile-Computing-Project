@@ -20,11 +20,19 @@ router.get('/me', async(req, res, next) => {
 
 router.put('/', async(req, res, next) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+    var updatedUser = await User.findByIdAndUpdate(req.user._id,  {$set : req.body }, { new: true, runValidators: true })
+    updatedUser = await updatedUser.save()
 
+    // var updatedUser = await User.findById(req.user._id)
+
+    // updatedUser = Object.assign(updatedUser, req.body)
+
+    // updatedUser = await User(req.body).save()
+    
     res.send(updatedUser);
 
   } catch (err) {
+    // console.log(err)
     next(err)
   }
 })

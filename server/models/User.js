@@ -13,7 +13,6 @@ var userSchema = new Schema({
     required: true
   },
   role: {
-    required: true,
     type: String,
     enum: ['USER', 'VOLUNTEER'],
     default: 'USER'
@@ -27,18 +26,23 @@ var userSchema = new Schema({
 })
 // hash password before store it 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
+
+  // if (!this.isModified("password")) {
+  //   return next()
+  // }
   try {
-    const hash = await bcrypt.hashSync(this.password, 11)
+    var error = this.validateSync()
+
+    if(error) throw new Error(error)
+    
+    const hash = await bcrypt.hashSync(this.password, 10)
+
     this.password = hash
     next()
 
   } catch (err) {
     next(err)
   }
-
 })
 
 userSchema.methods.passwordIsValid = (toCheck, valid) => bcrypt.compareSync(toCheck, valid)
