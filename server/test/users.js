@@ -1,6 +1,8 @@
 var user = { email: 'test@com', password: '123' }
 
-var fieldsToUpdate = [ { email: 'test2@com', },  {password: '1234'}, { role: 'VOLUNTEER'} ]
+var fieldsToUpdate = [ { email: 'test2@com', },  {password: '1234'}, { role: 'VOLUNTEER'}, { medicInfo : {blood : 'A+'}  }]
+
+var newUser = { email: 'test3@com', role: 'USER', medicInfo: {blood : 'A-'} }
 
 module.exports = function (chai, server, should) {
   it('it should return a token if the credential are correct', (done) => {
@@ -77,6 +79,34 @@ module.exports = function (chai, server, should) {
     .end(function (err, res) {
       // TODO should be 400
       res.should.have.status(500);
+      done();
+    })
+  })
+  it('it should update medicInfo field correctly', (done) => {
+    chai.request(server)
+    .put('/api/users/')
+    .set('Authorization', 'Bearer ' + user.token)
+    .send(fieldsToUpdate[3])    
+    .end(function (err, res) {
+      res.should.have.status(200);
+      res.body.should.be.a('object')
+      res.body.should.have.property('medicInfo')
+      res.body.medicInfo.should.have.property('blood').eql(fieldsToUpdate[3].medicInfo.blood)
+      done();
+    })
+  })
+  it('it should update each field', (done) => {
+    chai.request(server)
+    .put('/api/users/')
+    .set('Authorization', 'Bearer ' + user.token)
+    .send(newUser)    
+    .end(function (err, res) {
+      res.should.have.status(200);
+      res.body.should.be.a('object')
+      for(let key in newUser){
+        res.body.should.have.property(key)
+        res.body[key].should.be.eql(newUser[key])
+      }
       done();
     })
   })
