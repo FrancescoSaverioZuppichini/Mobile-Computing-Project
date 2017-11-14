@@ -1,12 +1,12 @@
 var express = require('express');
-var router = express.Router();
-
 var jwt = require('jsonwebtoken')
-
 const User = require('../models/User')
 
+var router = express.Router();
+// custom errors
 const errors = { EMAIL_ALREADY_IN_USE: { message: "Email already used" }, PASSWORD_NOT_VALID: { message: 'Password or Email not valid'} }
 
+// TODO let's keep it or no :) ?
 class AuthError extends Error {
   constructor(status, message){
     this.status = status || 500
@@ -32,13 +32,12 @@ router.put('/', async(req, res, next) => {
     next()
 
   } catch (err) {
-    console.log(err)
     next(err)
   }
 })
 // generate a token
 router.put('/', async (req, res, next) => {
-    res.send(jwt.sign({data: req.user  }, 'alessia', { expiresIn: '1h' }))
+    res.json({ token: jwt.sign({data: req.user  }, 'alessia', { expiresIn: '1h' })} )
 })
 // normal username/email registration
 router.post('/', async(req, res, next) => {
@@ -52,7 +51,6 @@ router.post('/', async(req, res, next) => {
     res.send(newUser);
 
   } catch (err) {
-    console.log(err)
     next(err)
   }
 })
