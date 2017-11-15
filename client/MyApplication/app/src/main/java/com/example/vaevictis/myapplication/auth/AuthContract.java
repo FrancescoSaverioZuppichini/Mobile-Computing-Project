@@ -6,16 +6,16 @@ package com.example.vaevictis.myapplication.auth;
 
 public interface AuthContract {
 
-    interface AuthView {
+    interface View {
 
         void showError(String error);
     }
 
-    interface AuthPresenter {
+    interface Presenter {
 
         void validateAndDoAuth(String email, String password);
 
         void onDestroy();
     }
-    
+
 }
