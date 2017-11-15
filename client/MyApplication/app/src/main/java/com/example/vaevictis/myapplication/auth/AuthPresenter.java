@@ -6,7 +6,7 @@ package com.example.vaevictis.myapplication.auth;
 
 public interface AuthPresenter {
 
-    void validateAndDoAuth(String emailm, String password);
+    void validateAndDoAuth(String email, String password);
 
     void onDestroy();
 }

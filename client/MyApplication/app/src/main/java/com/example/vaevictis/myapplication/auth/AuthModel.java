@@ -5,6 +5,6 @@ package com.example.vaevictis.myapplication.auth;
  */
 
 public interface AuthModel {
-//    TODO add a listener
+    //    TODO add a listener
     void doAuth(String email, String password);
 }
