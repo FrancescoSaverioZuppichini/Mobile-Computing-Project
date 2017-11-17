@@ -1,3 +1,3 @@
-# Client
+# Server
 
-In this folder there is all the code for the client.
+In this folder there is all the code for the back-end.
