@@ -3,23 +3,4 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/input_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=""
-        android:hint="email" />
-    <EditText
-        android:id="@+id/input_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=""
-        android:hint="password" />
-
-    <Button
-    android:text="LOGIN"
-    android:id="@+id/login"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="doAuth"/>
 </LinearLayout>

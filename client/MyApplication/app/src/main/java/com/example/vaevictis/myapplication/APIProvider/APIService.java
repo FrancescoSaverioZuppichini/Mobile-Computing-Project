@@ -1,7 +1,8 @@
 package com.example.vaevictis.myapplication.APIProvider;
 import com.example.vaevictis.myapplication.user.User;
 
-import retrofit2.Retrofit;
+import okhttp3.ResponseBody;
+import retrofit2.*;
 import retrofit2.http.*;
 
 /**
@@ -9,5 +10,5 @@ import retrofit2.http.*;
  */
 public interface APIService {
     @POST("auth/")
-    void signIn(@Body User user);
+    Call<ResponseBody> signIn(@Body User user);
 }

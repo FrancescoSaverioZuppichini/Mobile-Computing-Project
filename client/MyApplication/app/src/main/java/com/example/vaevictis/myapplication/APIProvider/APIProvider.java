@@ -8,9 +8,9 @@ import retrofit2.Retrofit;
 
 public final class APIProvider {
 
-    private String BASE_URL = "localhost:3000/";
+    static String BASE_URL = "localhost:3000/";
 
-    private APIService service = new Retrofit.Builder()
+    static public APIService service = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .build()
             .create(APIService.class);
