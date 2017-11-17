@@ -45,6 +45,14 @@ var userSchema = new Schema({
       type: Number,
       default: 3000.0
     }
+  },
+  position: {
+    lat: {
+      type: Number
+    },
+    long: {
+      type: Number
+    }
   }
 })
 // hash password before store it 

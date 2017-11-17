@@ -1,8 +1,8 @@
 var user = { email: 'test@com', password: '123' }
 
-var fieldsToUpdate = [ { email: 'test2@com', },  {password: '1234'}, { role: 'VOLUNTEER'}, { medicInfo : {blood : 'A+'}  }]
+var fieldsToUpdate = [ { email: 'test2@com', },  {password: '1234'}, { role: 'VOLUNTEER'}, { medicInfo : {blood : 'A+'} } , { position: { lat: 40.0, long: 30.0 } } ]
 
-var newUser = { email: 'test3@com', role: 'USER', medicInfo: {blood : 'A-'} }
+var newUser = { email: 'test3@com', role: 'USER', medicInfo: {blood : 'A-'}, position: { lat: 40.0, long: 30.0 } }
 
 module.exports = function (chai, server, should) {
   it('it should return a token if the credential are correct', (done) => {
@@ -92,6 +92,21 @@ module.exports = function (chai, server, should) {
       res.body.should.be.a('object')
       res.body.should.have.property('medicInfo')
       res.body.medicInfo.should.have.property('blood').eql(fieldsToUpdate[3].medicInfo.blood)
+      done();
+    })
+  })
+  it('it should update position field correctly', (done) => {
+    chai.request(server)
+    .put('/api/users/')
+    .set('Authorization', 'Bearer ' + user.token)
+    .send(fieldsToUpdate[4])    
+    .end(function (err, res) {
+      res.should.have.status(200);
+      res.body.should.be.a('object')
+      res.body.should.have.property('position')
+      res.body.position.should.have.property('lat').eql(fieldsToUpdate[4].position.lat)
+      res.body.position.should.have.property('long').eql(fieldsToUpdate[4].position.long)
+      
       done();
     })
   })
