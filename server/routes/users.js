@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('jsonwebtoken-refresh')
 
 const User = require('../models/User')
 /* GET users listing. */
@@ -16,6 +17,13 @@ router.get('/me', async(req, res, next) => {
   } catch (err) {
     next(err)
   }
+})
+
+router.put('/refresh/me', async(req, res, next) => {
+  
+    const refleshed = jwt.refresh(req.decoded, '12h', process.env.TOKEN_SECRET)
+   
+    res.json({ token: refleshed })
 })
 
 router.put('/', async(req, res, next) => {

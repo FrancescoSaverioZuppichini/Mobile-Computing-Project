@@ -9,7 +9,7 @@ function JWTProtected(req, res, next) {
     jwt.verify(req.token, process.env.TOKEN_SECRET);
 
     var decoded = jwt.decode(req.token, { complete: true })
-        
+    req.decoded = decoded
     req.user = decoded.payload.data
     // password MUST not be showed to the client even if its hashed
     delete req.user.password

@@ -47,6 +47,17 @@ module.exports = function (chai, server, should) {
           done()
         })
     })
+    it('it should reflesh a token if the old one is valid', (done) => {
+      chai.request(server)
+        .put('/api/users/refresh/me')
+        .set('Authorization', 'Bearer ' + user.token)
+        .end(function (err, res) {
+          res.should.have.status(200)
+          res.should.have.be.a('object')
+          res.body.should.have.property('token')
+          done()
+        })
+    })
     it('it should not return a token if the email is wrong', (done) => {
       chai.request(server)
         .put('/auth/')

@@ -1,5 +1,5 @@
 var express = require('express');
-var jwt = require('jsonwebtoken')
+var jwt = require('jsonwebtoken-refresh')
 var User = require('../models/User')
 
 var router = express.Router();
