@@ -1,52 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.example.vaevictis.myapplication.auth.AuthView">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="170dp"
-        android:layout_height="62dp"
-        android:text="Sign in"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="131dp" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="377dp"
-        android:layout_height="49dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Username"
-        tools:layout_editor_absoluteX="17dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="378dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Password"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="77dp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="170dp"
-        android:layout_height="62dp"
-        android:text="Sign up"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="218dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="You are not registered yet? Sign up now!"
-        tools:layout_editor_absoluteX="78dp"
-        tools:layout_editor_absoluteY="199dp" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.vaevictis.myapplication.auth.AuthView"
+        tools:showIn="@layout/auth">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="170dp"
+            android:layout_height="62dp"
+            android:text="Sign in"
+            tools:layout_editor_absoluteX="120dp"
+            tools:layout_editor_absoluteY="131dp"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="377dp"
+            android:layout_height="49dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Username"
+            tools:layout_editor_absoluteX="17dp"
+            tools:layout_editor_absoluteY="16dp"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="378dp"
+            android:layout_height="46dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Password"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="77dp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="170dp"
+            android:layout_height="62dp"
+            android:text="Sign up"
+            tools:layout_editor_absoluteX="120dp"
+            tools:layout_editor_absoluteY="218dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You are not registered yet? Sign up now!"
+            tools:layout_editor_absoluteX="78dp"
+            tools:layout_editor_absoluteY="199dp"
+            tools:ignore="MissingConstraints" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>
