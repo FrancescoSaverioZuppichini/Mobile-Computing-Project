@@ -5,8 +5,8 @@ package com.example.vaevictis.myapplication.user;
  */
 
 public class User {
-    String email;
-    String password;
+    private String email;
+    private String password;
     String token;
 
     public User(String email, String password) {
