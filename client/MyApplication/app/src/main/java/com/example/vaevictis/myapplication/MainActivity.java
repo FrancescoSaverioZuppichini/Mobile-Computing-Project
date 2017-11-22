@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        User user = new User("test@com","test123");
-        System.out.println(APIProvider.service.signIn(user));
+        //User user = new User("test@com","test123");
+        //System.out.println(APIProvider.service.signIn(user));
     }
 }
