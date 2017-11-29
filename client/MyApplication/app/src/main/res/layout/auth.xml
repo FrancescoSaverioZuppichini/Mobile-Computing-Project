@@ -29,54 +29,47 @@
         tools:context="com.example.vaevictis.myapplication.auth.AuthView"
         tools:showIn="@layout/auth">
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="170dp"
-            android:layout_height="62dp"
-            android:text="Sign in"
-            tools:layout_editor_absoluteX="120dp"
-            tools:layout_editor_absoluteY="131dp"
-            tools:ignore="MissingConstraints" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="8dp">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="377dp"
-            android:layout_height="49dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Username"
-            tools:layout_editor_absoluteX="17dp"
-            tools:layout_editor_absoluteY="16dp"
-            tools:ignore="MissingConstraints" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="text"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textVisiblePassword"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SingIn"
+                    android:id="@+id/signIn"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No account?"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="signUp"
+                    android:id="@+id/signUp"/>
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="378dp"
-            android:layout_height="46dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Password"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="77dp"
-            tools:ignore="MissingConstraints" />
+            </LinearLayout>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="170dp"
-            android:layout_height="62dp"
-            android:text="Sign up"
-            tools:layout_editor_absoluteX="120dp"
-            tools:layout_editor_absoluteY="218dp"
-            tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You are not registered yet? Sign up now!"
-            tools:layout_editor_absoluteX="78dp"
-            tools:layout_editor_absoluteY="199dp"
-            tools:ignore="MissingConstraints" />
 
     </android.support.constraint.ConstraintLayout>
 
