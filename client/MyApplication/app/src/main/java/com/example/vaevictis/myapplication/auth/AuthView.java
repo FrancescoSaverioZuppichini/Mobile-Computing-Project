@@ -29,6 +29,11 @@ public class AuthView extends AppCompatActivity implements AuthContract.View {
         signIn = (Button) findViewById(R.id.signIn);
         signUp = (Button) findViewById(R.id.signUp);
 
+        addListenerOnButton();
+
+    }
+
+    private void addListenerOnButton(){
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,5 +51,4 @@ public class AuthView extends AppCompatActivity implements AuthContract.View {
             }
         });
     }
-
 }
