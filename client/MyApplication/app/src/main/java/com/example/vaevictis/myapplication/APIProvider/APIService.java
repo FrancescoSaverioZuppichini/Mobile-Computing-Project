@@ -1,4 +1,5 @@
 package com.example.vaevictis.myapplication.APIProvider;
+import com.example.vaevictis.myapplication.Token;
 import com.example.vaevictis.myapplication.user.User;
 
 import okhttp3.ResponseBody;
@@ -11,9 +12,9 @@ import retrofit2.http.*;
 public interface APIService {
 
     @POST("/auth")
-    Call<User> signIn(@Body User user);
+    Call<User> register(@Body User user);
     @PUT("/auth")
-    Call<ResponseBody> getToken(@Body User user, @Header("Authorization") String authHeader);
+    Call<Token> getToken(@Body User user);
     @GET("/api/me")
     Call<ResponseBody> getMe(@Body User user, @Header("Authorization") String authHeader);
     @PUT("/api/users")

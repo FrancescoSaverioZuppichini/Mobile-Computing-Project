@@ -35,7 +35,7 @@ const data = [{
       }
     },
     {
-      email: 'zuppi@dio.com',
+      email: 'zuppi',
       password: 'ivan',
       role: 'USER',
       medicInfo: {

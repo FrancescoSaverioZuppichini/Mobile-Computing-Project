@@ -17,7 +17,7 @@ router.put('/', async(req, res, next) => {
   try {
     const email = req.body.email
     const password = req.body.password
-
+    
     const user = await User.findOne({
       email: email
     })
