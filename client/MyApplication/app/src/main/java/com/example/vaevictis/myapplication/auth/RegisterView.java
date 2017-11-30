@@ -1,8 +1,7 @@
 package com.example.vaevictis.myapplication.auth;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -29,10 +28,8 @@ public class RegisterView extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent switchToSignIn = new Intent(RegisterView.this, AuthView.class);
-                startActivity(switchToSignIn);
-
+//                little hack, this activity can only be called from Auth, so let's go back
+                onBackPressed();
             }
         });
 

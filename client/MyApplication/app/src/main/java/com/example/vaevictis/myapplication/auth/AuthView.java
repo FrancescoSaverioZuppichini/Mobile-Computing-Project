@@ -12,17 +12,36 @@ import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.user.UserController;
 import com.example.vaevictis.myapplication.R;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
-public class AuthView extends AppCompatActivity{
+import java.util.List;
+
+public class AuthView extends AppCompatActivity implements Validator.ValidationListener {
 
     Button signIn;
     Button signUp;
+
+    @NotEmpty
+    @Email
     EditText emailField;
+    @NotEmpty
     EditText passwordField;
+
+    Validator validator;
+
+    UserController userController;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
+
+        userController = new UserController(this);
+
+        validator = new Validator(this);
+        validator.setValidationListener(this);
 
         signIn = (Button) findViewById(R.id.signIn);
         signUp = (Button) findViewById(R.id.signUp);
@@ -39,12 +58,7 @@ public class AuthView extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "Clicked SignIn!", Toast.LENGTH_SHORT).show();
-
-                String email = emailField.getText().toString();
-                String password = passwordField.getText().toString();
-
-                UserController.validateAndDoLogIn(email, password);
+                validator.validate();
             }
         });
 
@@ -52,11 +66,34 @@ public class AuthView extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "Clicked SignUp!", Toast.LENGTH_SHORT).show();
 
                 Intent switchToSignUp = new Intent(AuthView.this, RegisterView.class);
                 startActivity(switchToSignUp);
             }
         });
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+
+        userController.validateAndDoLogIn(email, password);
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
