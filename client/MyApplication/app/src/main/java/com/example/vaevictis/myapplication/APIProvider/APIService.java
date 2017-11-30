@@ -12,7 +12,7 @@ import retrofit2.http.*;
 public interface APIService {
 
     @POST("/auth")
-    Call<User> register(@Body User user);
+    Call<User> signUp(@Body User user);
     @PUT("/auth")
     Call<Token> getToken(@Body User user);
     @GET("/api/me")

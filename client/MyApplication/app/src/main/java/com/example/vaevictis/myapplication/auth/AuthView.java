@@ -66,7 +66,6 @@ public class AuthView extends AppCompatActivity implements Validator.ValidationL
             @Override
             public void onClick(View v) {
 
-
                 Intent switchToSignUp = new Intent(AuthView.this, RegisterView.class);
                 startActivity(switchToSignUp);
             }
@@ -78,7 +77,7 @@ public class AuthView extends AppCompatActivity implements Validator.ValidationL
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
 
-        userController.validateAndDoLogIn(email, password);
+        userController.doSignIn(email, password);
 
     }
 

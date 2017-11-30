@@ -25,9 +25,8 @@ public class UserController {
         this.context = context;
     }
 
-    public void validateAndDoLogIn(String email, String password) {
+    public void doSignIn(String email, String password) {
         user = new User(email, password);
-//        TODO client validate email and password -> check if they exists
         final Call<Token> res = APIProvider.service.getToken(user);
         res.enqueue(new Callback<Token>() {
             @Override
@@ -55,6 +54,36 @@ public class UserController {
             }
         });
 
+    }
+
+    public void doSignUp(String email, String password) {
+        user = new User(email, password);
+
+        final Call<User> res = APIProvider.service.signUp(user);
+        res.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+
+                     user = response.body();
+
+                    Toast.makeText(context, "Account successfully created!", Toast.LENGTH_SHORT).show();
+
+                    Intent goToHome = new Intent(context, HomeActivity.class);
+                    context.startActivity(goToHome);
+
+                } else {
+                    System.out.println("SOMETHING EXPLODED");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
 
     public void onDestroy() {
