@@ -13,7 +13,7 @@ public interface UserContract {
 
     interface Presenter {
 
-        void validateAndDoAuth(String email, String password);
+        void  validateAndDoAuth(String email, String password);
 
         void onDestroy();
     }

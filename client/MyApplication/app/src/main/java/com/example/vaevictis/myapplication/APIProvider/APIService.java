@@ -9,16 +9,15 @@ import retrofit2.http.*;
  * Created by vaevictis on 17.11.17.
  */
 public interface APIService {
-    String SERVER_URL = "localhost:3000/";
 
-    @POST(SERVER_URL + "/auth")
-    Call<ResponseBody> signIn(@Body User user);
-    @PUT(SERVER_URL + "/auth")
+    @POST("/auth")
+    Call<User> signIn(@Body User user);
+    @PUT("/auth")
     Call<ResponseBody> getToken(@Body User user, @Header("Authorization") String authHeader);
-    @GET(SERVER_URL + "/api//me")
+    @GET("/api/me")
     Call<ResponseBody> getMe(@Body User user, @Header("Authorization") String authHeader);
-    @PUT(SERVER_URL + "/api/users")
+    @PUT("/api/users")
     Call<ResponseBody> updateMe(@Body User user, @Header("Authorization") String authHeader);
-    @GET(SERVER_URL + "/api/users")
+    @GET("/api/users")
     Call<ResponseBody> getAllUsers(@Body User user, @Header("Authorization") String authHeader);
 }
