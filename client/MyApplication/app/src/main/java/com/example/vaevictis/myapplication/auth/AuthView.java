@@ -2,16 +2,15 @@ package com.example.vaevictis.myapplication.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.vaevictis.myapplication.user.UserController;
+import com.example.vaevictis.myapplication.HomeActivity;
 import com.example.vaevictis.myapplication.R;
+import com.example.vaevictis.myapplication.user.UserController;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -58,7 +57,10 @@ public class AuthView extends AppCompatActivity implements Validator.ValidationL
             @Override
             public void onClick(View v) {
 
-                validator.validate();
+                Intent goToHome = new Intent(AuthView.this, HomeActivity.class);
+                startActivity(goToHome);
+//            TODO ricordarsi di rimetterlo senno non va 1 cazzo
+//                validator.validate();
             }
         });
 

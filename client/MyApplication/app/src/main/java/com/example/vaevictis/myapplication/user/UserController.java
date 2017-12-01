@@ -29,6 +29,7 @@ public class UserController {
     public void doSignIn(String email, String password) {
         user = new User(email, password);
         final Call<Token> res = APIProvider.service.getToken(user);
+
         res.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
