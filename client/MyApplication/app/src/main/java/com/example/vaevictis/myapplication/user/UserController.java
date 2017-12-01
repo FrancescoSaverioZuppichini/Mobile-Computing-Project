@@ -18,7 +18,7 @@ import retrofit2.Response;
  */
 
 public class UserController {
-    static User user;
+    public static User user;
 
     private Context context;
 
@@ -68,7 +68,7 @@ public class UserController {
 
                 if(response.isSuccessful()) {
 
-                     user = response.body();
+                    user = response.body();
 
                     Toast.makeText(context, "Account successfully created!", Toast.LENGTH_SHORT).show();
 
@@ -88,7 +88,33 @@ public class UserController {
         });
     }
 
-    public void onDestroy() {
+    public void updateUser(){
 
+        final Call<User> res = APIProvider.service.updateMe(user, "Bearer " + user.getToken().getValue());
+
+        res.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()) {
+                    user = response.body();
+
+                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    System.out.println(response.errorBody());
+                    System.out.println(response.body());
+
+                    System.out.println("updateUser error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
+
+
 }

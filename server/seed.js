@@ -1,5 +1,4 @@
 var mongoose = require('mongoose')
-
 var seeder = require('mongoose-seed');
 
 DB_URL = 'mongodb://localhost/mobile_computing'
@@ -19,7 +18,6 @@ seeder.connect(DB_URL, function () {
   })
 })
 
-
 const data = [{
   'model': 'User',
   'documents': [{
@@ -29,9 +27,9 @@ const data = [{
       medicInfo: {
         blood: 'O+'
       },
-      position: {
-        lat: 46.011095,
-        long: 8.957484199999953
+      location: {
+        latitude: 46.011095,
+        longitude: 8.957484199999953
       }
     },
     {
@@ -41,9 +39,9 @@ const data = [{
       medicInfo: {
         blood: 'A+'
       },
-      position: {
-        lat: 46.0108692,
-        long: 8.96078866
+      location: {
+        latitude: 46.0108692,
+        longitude: 8.96078866
       }
     },
     {
@@ -53,9 +51,9 @@ const data = [{
       medicInfo: {
         blood: 'AB+'
       },
-      position: {
-        lat: 46.0108692,
-        long: 8.96078866
+      location: {
+        latitude: 46.0108692,
+        longitude: 8.96078866
       }
     }
   ]

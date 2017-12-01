@@ -46,11 +46,11 @@ var userSchema = new Schema({
       default: 3000.0
     }
   },
-  position: {
-    lat: {
+  location: {
+    latitude: {
       type: Number
     },
-    long: {
+    longitude: {
       type: Number
     }
   }

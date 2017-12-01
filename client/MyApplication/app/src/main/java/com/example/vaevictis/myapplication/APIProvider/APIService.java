@@ -1,10 +1,16 @@
 package com.example.vaevictis.myapplication.APIProvider;
+
 import com.example.vaevictis.myapplication.Token;
 import com.example.vaevictis.myapplication.user.User;
 
-import okhttp3.ResponseBody;
-import retrofit2.*;
-import retrofit2.http.*;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 /**
  * Created by vaevictis on 17.11.17.
@@ -16,9 +22,9 @@ public interface APIService {
     @PUT("/auth")
     Call<Token> getToken(@Body User user);
     @GET("/api/me")
-    Call<ResponseBody> getMe(@Body User user, @Header("Authorization") String authHeader);
+    Call<User> getMe(@Body User user, @Header("Authorization") String authHeader);
     @PUT("/api/users")
-    Call<ResponseBody> updateMe(@Body User user, @Header("Authorization") String authHeader);
+    Call<User> updateMe(@Body User user, @Header("Authorization") String authHeader);
     @GET("/api/users")
-    Call<ResponseBody> getAllUsers(@Body User user, @Header("Authorization") String authHeader);
+    Call<List<User>> getAllUsers(@Body User user, @Header("Authorization") String authHeader);
 }

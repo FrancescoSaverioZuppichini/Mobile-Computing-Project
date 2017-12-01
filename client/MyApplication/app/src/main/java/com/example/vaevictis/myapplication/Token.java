@@ -6,9 +6,13 @@ package com.example.vaevictis.myapplication;
 
 public class Token {
 
-    String token;
+    private String token;
 
-    public Token(String token) {
-        this.token = token;
+    public Token(String value) {
+        this.token = value;
+    }
+
+    public String getValue() {
+        return token;
     }
 }

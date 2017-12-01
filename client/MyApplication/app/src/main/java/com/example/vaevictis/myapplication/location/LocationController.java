@@ -10,7 +10,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
+
+import com.example.vaevictis.myapplication.user.UserController;
 
 
 /**
@@ -21,8 +22,8 @@ public class LocationController implements LocationListener{
     private LocationManager locationManager;
     private Context context;
 
-    final int MIN_TIME = 3000;
-    final int MIN_DISTANCE = 3;
+    private int MIN_TIME = 3000;
+    private float MIN_DISTANCE = (float) 0.1;
 
     public LocationController(Context context) {
 
@@ -31,17 +32,21 @@ public class LocationController implements LocationListener{
     }
 
     public void initialise(){
-
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
         } else {
-            ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions((Activity) context,new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, 1);
         }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(context, "" + location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_LONG ).show();
+
+        UserController.user.setLocation(location.getLatitude(), location.getLongitude());
+
+        UserController userController = new UserController(this.context);
+
+        userController.updateUser();
 
     }
 

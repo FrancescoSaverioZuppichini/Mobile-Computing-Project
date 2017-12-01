@@ -27,6 +27,8 @@ router.put('/refresh/me', async(req, res, next) => {
 })
 
 router.put('/', async(req, res, next) => {
+  console.log(req.body)
+
   try {
     var updatedUser = await User.findByIdAndUpdate(req.user._id, {
       $set: req.body

@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
 import com.example.vaevictis.myapplication.location.LocationController;
+import com.example.vaevictis.myapplication.user.UserController;
 
 public class HomeActivity extends AppCompatActivity {
     LocationController locationController;
@@ -20,6 +21,8 @@ public class HomeActivity extends AppCompatActivity {
 
         locationController.initialise();
         Button button = (Button) findViewById(R.id.position);
+
+        System.out.println(UserController.user.getToken().getValue());
 //
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
