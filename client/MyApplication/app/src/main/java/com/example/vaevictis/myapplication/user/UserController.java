@@ -68,7 +68,11 @@ public class UserController {
 
                 if(response.isSuccessful()) {
 
-                    user = response.body();
+                    User newUser = response.body();
+
+                    newUser.setToken(user.getToken());
+
+                    user = newUser;
 
                     Toast.makeText(context, "Account successfully created!", Toast.LENGTH_SHORT).show();
 
@@ -89,14 +93,20 @@ public class UserController {
     }
 
     public void updateUser(){
-
+        System.out.println(user);
         final Call<User> res = APIProvider.service.updateMe(user, "Bearer " + user.getToken().getValue());
 
         res.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()) {
-                    user = response.body();
+
+                    User updatedUser = response.body();
+
+                    updatedUser.setToken(user.getToken());
+
+                    user = updatedUser;
+
 
                     Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
 

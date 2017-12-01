@@ -41,7 +41,7 @@ public class LocationController implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-
+        System.out.println(UserController.user + "DIOCANENNENE");
         UserController.user.setLocation(location.getLatitude(), location.getLongitude());
 
         UserController userController = new UserController(this.context);
