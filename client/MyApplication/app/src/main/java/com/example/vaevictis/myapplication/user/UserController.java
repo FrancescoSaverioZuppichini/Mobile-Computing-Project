@@ -93,7 +93,7 @@ public class UserController {
     }
 
     public void updateUser(){
-        System.out.println(user);
+
         final Call<User> res = APIProvider.service.updateMe(user, "Bearer " + user.getToken().getValue());
 
         res.enqueue(new Callback<User>() {
@@ -114,8 +114,6 @@ public class UserController {
                 else {
                     System.out.println(response.errorBody());
                     System.out.println(response.body());
-
-                    System.out.println("updateUser error");
                 }
             }
 
