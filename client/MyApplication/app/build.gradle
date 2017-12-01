@@ -30,5 +30,8 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
+    compile 'com.pranavpandey.android:dynamic-toasts:0.6.0'
+    compile 'com.pranavpandey.android:dynamic-utils:0.6.0'
+
     testCompile 'junit:junit:4.12'
 }

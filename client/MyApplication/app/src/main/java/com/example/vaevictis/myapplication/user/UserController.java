@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.HomeActivity;
 import com.example.vaevictis.myapplication.Token;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,15 +38,15 @@ public class UserController {
                     Token token = response.body();
                     user.setToken(token);
 
-                    Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show();
+                    DynamicToast.makeSuccess(context, "Login successful!").show();
 
                     Intent goToHome = new Intent(context, HomeActivity.class);
                     context.startActivity(goToHome);
 
                 } else {
-                    System.out.println("SOMETHING EXPLODED");
-                }
 
+                    DynamicToast.makeError(context, "Email or Password not valid").show();
+                }
             }
 
             @Override
