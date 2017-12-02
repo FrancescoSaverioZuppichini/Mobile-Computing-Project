@@ -3,8 +3,11 @@ package com.example.vaevictis.myapplication.auth;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.R;
@@ -27,6 +30,11 @@ public class RegisterView extends AppCompatActivity implements Validator.Validat
     @NotEmpty
     EditText passwordField;
 
+    Spinner spinner;
+
+    RadioButton userSelector;
+    RadioButton volunteerSelector;
+
     Validator validator;
 
     UserController userController;
@@ -47,8 +55,20 @@ public class RegisterView extends AppCompatActivity implements Validator.Validat
         emailField = (EditText) findViewById(R.id.email);
         passwordField = (EditText) findViewById(R.id.password);
 
-        addListenerOnButton();
+        userSelector = (RadioButton) findViewById(R.id.radio_user);
+        volunteerSelector = (RadioButton) findViewById(R.id.radio_volunteer);
 
+        spinner = (Spinner) findViewById(R.id.bloodSpinner);
+
+        addListenerOnButton();
+        setUpBloodSpinner();
+    }
+
+    private void setUpBloodSpinner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.bloodTypes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     private void addListenerOnButton(){
@@ -65,6 +85,20 @@ public class RegisterView extends AppCompatActivity implements Validator.Validat
             public void onClick(View v) {
 
                 validator.validate();
+            }
+        });
+
+        userSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserController.user.setRole("USER");
+            }
+        });
+
+        volunteerSelector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserController.user.setRole("VOLUNTEER");
             }
         });
     }

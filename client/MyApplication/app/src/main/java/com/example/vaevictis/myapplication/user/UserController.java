@@ -18,7 +18,7 @@ import retrofit2.Response;
  */
 
 public class UserController {
-    public static User user;
+    public static User user = new User();
 
     private Context context;
 
@@ -27,7 +27,7 @@ public class UserController {
     }
 
     public void doSignIn(String email, String password) {
-        user = new User(email, password);
+        user.setEmailAndPassword(email, password);
         final Call<Token> res = APIProvider.service.getToken(user);
 
         res.enqueue(new Callback<Token>() {
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     public void doSignUp(String email, String password) {
-        user = new User(email, password);
+        user.setEmailAndPassword(email, password);
 
         final Call<User> res = APIProvider.service.signUp(user);
         res.enqueue(new Callback<User>() {
@@ -68,17 +68,11 @@ public class UserController {
 
                 if(response.isSuccessful()) {
 
-                    User newUser = response.body();
 
-                    newUser.setToken(user.getToken());
+                    DynamicToast.makeSuccess(context, "Account successfully created!").show();
 
-                    user = newUser;
-
-                    Toast.makeText(context, "Account successfully created!", Toast.LENGTH_SHORT).show();
-
-                    Intent goToHome = new Intent(context, HomeActivity.class);
-                    context.startActivity(goToHome);
-
+                    doSignIn(user.getEmail(), user.getPassword());
+                    
                 } else {
                     System.out.println("SOMETHING EXPLODED");
                 }
@@ -106,7 +100,6 @@ public class UserController {
                     updatedUser.setToken(user.getToken());
 
                     user = updatedUser;
-
 
                     Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
 

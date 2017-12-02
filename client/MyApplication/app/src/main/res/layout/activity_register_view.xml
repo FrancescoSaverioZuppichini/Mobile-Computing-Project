@@ -27,12 +27,40 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Who you are?"/>
-        <!--TODO place multiple selection botton-->
+            android:text="Who you are?"
+            android:textSize="16dp"
+            />
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/radio_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user"
+                android:onClick="onUserSelected"
+                android:checked="true"/>
+            <RadioButton android:id="@+id/radio_volunteer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/volunteer"
+                android:onClick="onVolunteerSelected"/>
+        </RadioGroup>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your medic information"/>
+            android:text="Your medical information"
+            android:textSize="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blood type"
+            />
+        <Spinner
+            android:id="@+id/bloodSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
         <!--TODO place blood-->
         <LinearLayout
             android:layout_width="match_parent"

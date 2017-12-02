@@ -54,7 +54,7 @@ router.post('/', async(req, res, next) => {
     if (userWithThatEmailAlreadyExists) throw errors.EMAIL_ALREADY_IN_USE
 
     const newUser = await User(req.body).save()
-
+    
     res.status(201).json(newUser)
 
   } catch (err) {
