@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.HomeActivity;
+import com.example.vaevictis.myapplication.SocketClient;
 import com.example.vaevictis.myapplication.Token;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -121,11 +122,44 @@ public class UserController {
         });
     }
 
+    public void getMe(){
+        final Call<User> res = APIProvider.service.getMe("Bearer " + user.getToken().getValue());
+
+        res.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+
+                    User me = response.body();
+
+                    me.setToken(user.getToken());
+                    user = me;
+
+                    System.out.println(user.getEmail() + ' ' + user.getPassword());
+                    SocketClient.start();
+                    SocketClient.socket.connect();
+                    SocketClient.socket.emit("test","hiii");
+
+
+                } else {
+                    System.out.println(response.errorBody());
+                    System.out.println(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void askForHelp(){
 
         isCalling = !isCalling;
 
         if(isCalling) {
+            SocketClient.socket.emit("help","HELP");
             Toast.makeText(context, "DIOCANE STO MORENDO PORCODIOOOOO", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Tutto nbene m8", Toast.LENGTH_SHORT).show();

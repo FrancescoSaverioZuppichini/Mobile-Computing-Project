@@ -14,6 +14,7 @@ import com.example.vaevictis.myapplication.user.UserController;
 public class HomeActivity extends AppCompatActivity {
     FloatingActionButton askForHelpButton;
     LocationController locationController;
+    YoYo.YoYoString animation;
 
     UserController userController;
 
@@ -32,14 +33,11 @@ public class HomeActivity extends AppCompatActivity {
 
         userController = new UserController(this);
 
+        userController.getMe();
         System.out.println(UserController.user.getToken().getValue());
 
         addListenerOnButton();
 
-        SocketClient.start();
-
-        SocketClient.socket.connect();
-        SocketClient.socket.emit("test","hiii");
 //
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -80,21 +78,18 @@ public class HomeActivity extends AppCompatActivity {
 
                 userController.askForHelp();
 
-
-
                 int icon = userController.isCalling() ? R.drawable.ic_call_end_black_24px : R.drawable.ic_phone_black_24px;
-
-                YoYo.YoYoString animation =  YoYo.with(Techniques.Tada)
-                        .duration(700)
-                        .repeat(YoYo.INFINITE)
-                        .playOn(askForHelpButton);
 
                 if(!userController.isCalling()){
                     System.out.println("STOP");
                     animation.stop(false);
                 }
-
-
+                else {
+                    animation = YoYo.with(Techniques.Tada)
+                            .duration(700)
+                            .repeat(YoYo.INFINITE)
+                            .playOn(askForHelpButton);
+                }
                 askForHelpButton.setImageResource(icon);
 
             }

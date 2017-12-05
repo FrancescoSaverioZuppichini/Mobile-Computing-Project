@@ -11,12 +11,14 @@ public class User {
     private String email;
     private String password;
     private String role = "USER";
+    private String _id;
     private Token token;
     private RawLocation location;
 
     public User(){
 
     }
+
     public void setEmailAndPassword(String email, String password) {
         this.email = email;
         this.password = password;
@@ -29,6 +31,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String get_id() {
+        return _id;
     }
 
     public String getPassword() {
@@ -49,5 +55,9 @@ public class User {
 
     public void setLocation(double latitude, double longitude) {
         this.location = new RawLocation(latitude, longitude);
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

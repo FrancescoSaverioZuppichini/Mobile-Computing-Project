@@ -21,8 +21,8 @@ public interface APIService {
     Call<User> signUp(@Body User user);
     @PUT("/auth")
     Call<Token> getToken(@Body User user);
-    @GET("/api/me")
-    Call<User> getMe(@Body User user, @Header("Authorization") String authHeader);
+    @GET("/api/users/me")
+    Call<User> getMe(@Header("Authorization") String authHeader);
     @PUT("/api/users")
     Call<User> updateMe(@Body User user, @Header("Authorization") String authHeader);
     @GET("/api/users")

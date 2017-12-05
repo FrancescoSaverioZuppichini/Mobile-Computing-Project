@@ -1,6 +1,7 @@
 package com.example.vaevictis.myapplication;
 
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
+import com.example.vaevictis.myapplication.user.UserController;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -14,7 +15,7 @@ import io.socket.emitter.Emitter;
 final public class SocketClient {
 
 
-    static Socket socket;
+    public static Socket socket;
 
     static public void start() {
         try {
@@ -23,7 +24,7 @@ final public class SocketClient {
 
                 @Override
                 public void call(Object... args) {
-                    socket.emit("foo", "hi");
+                    socket.emit("identify_me", UserController.user.get_id());
                 }
 
             }).on("event", new Emitter.Listener() {
