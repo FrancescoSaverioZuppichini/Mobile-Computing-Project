@@ -27,8 +27,6 @@ router.put('/refresh/me', async(req, res, next) => {
 })
 
 router.put('/', async(req, res, next) => {
-  console.log(req.body)
-
   try {
     var updatedUser = await User.findByIdAndUpdate(req.user._id, {
       $set: req.body
@@ -36,12 +34,17 @@ router.put('/', async(req, res, next) => {
       new: true,
       runValidators: true
     })
-
+    
     updatedUser = await updatedUser.save()
-
+    updatedUser = updatedUser.toObject()
+    delete updatedUser.password
+    
+    console.log(updatedUser)
+    
     res.send(updatedUser);
 
   } catch (err) {
+    console.log(err)
     next(err)
   }
 })

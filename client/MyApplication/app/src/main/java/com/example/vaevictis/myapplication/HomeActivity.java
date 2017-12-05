@@ -36,6 +36,10 @@ public class HomeActivity extends AppCompatActivity {
 
         addListenerOnButton();
 
+        SocketClient.start();
+
+        SocketClient.socket.connect();
+        SocketClient.socket.emit("test","hiii");
 //
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override

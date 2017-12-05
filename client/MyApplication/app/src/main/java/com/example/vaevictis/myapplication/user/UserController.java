@@ -29,6 +29,7 @@ public class UserController {
 
     public void doSignIn(String email, String password) {
         user.setEmailAndPassword(email, password);
+        System.out.println(email + ' '  + password);
         final Call<Token> res = APIProvider.service.getToken(user);
 
         res.enqueue(new Callback<Token>() {
@@ -99,8 +100,10 @@ public class UserController {
                     User updatedUser = response.body();
 
                     updatedUser.setToken(user.getToken());
+                    updatedUser.setEmailAndPassword(user.getEmail(), user.getPassword());
 
                     user = updatedUser;
+                    System.out.println(user.getEmail() + ' '  + user.getPassword());
 
                     Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
 
