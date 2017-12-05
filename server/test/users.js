@@ -53,7 +53,8 @@ module.exports = function (chai, server, should) {
 
       res.should.have.status(200);
       res.body.should.have.be.a('object')
-      res.body.should.have.property('password').not.eql(user.password)
+      // CHECK : password not sent back anymore
+      // res.body.should.have.property('password').not.eql(user.password)
       // TODO no password should be sent back
       done();
     })

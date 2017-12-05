@@ -6,19 +6,21 @@ package com.example.vaevictis.myapplication.location;
 
 public class RawLocation {
 
-    private double latitude;
-    private double longitude;
+    private double[] coordinates;
+
+    private String type = "Point";
 
     public RawLocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.coordinates = new double[2];
+        this.coordinates[0] = longitude;
+        this.coordinates[1] = latitude;
     }
 
     public double getLatitude() {
-        return latitude;
+        return coordinates[1];
     }
 
     public double getLongitude() {
-        return longitude;
+        return coordinates[0];
     }
 }

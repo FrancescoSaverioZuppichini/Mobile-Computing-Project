@@ -14,7 +14,6 @@ import io.socket.emitter.Emitter;
 
 final public class SocketClient {
 
-
     public static Socket socket;
 
     static public void start() {
@@ -25,12 +24,6 @@ final public class SocketClient {
                 @Override
                 public void call(Object... args) {
                     socket.emit("identify_me", UserController.user.get_id());
-                }
-
-            }).on("event", new Emitter.Listener() {
-
-                @Override
-                public void call(Object... args) {
                 }
 
             }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {

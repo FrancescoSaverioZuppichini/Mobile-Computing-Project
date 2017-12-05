@@ -1,3 +1,5 @@
+const User = require('./models/User')
+
 module.exports = function(server) {
     // TODO use redis!!
     var users = {}
@@ -16,9 +18,18 @@ module.exports = function(server) {
             console.log(msg)
         })
 
-        socket.on("help", (data) =>{
+        socket.on("help", async (data) =>{
             console.log(socket.user_id)
             console.log(data)
+            const user = await User.findById(socket.user_id)
+            const neighbors = await user.getNeighbors()
+            // TODO remove it added only for debugging
+            neighbors.forEach( neighbor => {
+                console.log(neighbor.email)
+                if(users[neighbor._id]){
+                    users[neighbor._id].emit("help_request", { from: user } )
+                }
+            } )
             // TODO fetch the closest user
         })
 

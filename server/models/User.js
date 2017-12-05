@@ -1,9 +1,9 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
-
 var bcrypt = require('bcrypt')
 
 var userSchema = new Schema({
+  
   email: {
     required: true,
     type: String
@@ -47,14 +47,14 @@ var userSchema = new Schema({
     }
   },
   location: {
-    latitude: {
-      type: Number
+    type: {
+      type: String,
+      default: 'Point'
     },
-    longitude: {
-      type: Number
-    }
+    coordinates: [Number] //longitude, latitude
   }
 })
+
 // hash password before store it 
 userSchema.pre("save", async function (next) {
   try {
@@ -62,12 +62,12 @@ userSchema.pre("save", async function (next) {
 
     if (error) throw new Error(error)
 
-    // if (this.isModified('password')){
-    //   console.log("DIOCANENENNENE")
-      const hash = await bcrypt.hashSync(this.password, 10)
-      this.password = hash
-    // }
-    
+    if (this.isModified('password')){
+      console.log("DIOCANENENNENE")
+    const hash = await bcrypt.hashSync(this.password, 10)
+    this.password = hash
+    }
+
     next()
 
   } catch (err) {
@@ -77,5 +77,26 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.passwordIsValid = (toCheck, valid) => bcrypt.compareSync(toCheck, valid)
 
+userSchema.methods.getNeighbors = function(from) {
+  const coordinates = this.location.coordinates
 
-module.exports = mongoose.model('User', userSchema);
+  return this.model('User').aggregate(
+    [
+        { "$geoNear": {
+            "near": {
+                "type": "Point",
+                "coordinates": coordinates
+            },
+            "distanceField": "dist",
+            "spherical": true,
+            "maxDistance": 10000
+        }}
+    ])
+}
+
+userSchema.index({
+  location: '2dsphere'
+})
+
+
+module.exports = mongoose.model('User', userSchema);;

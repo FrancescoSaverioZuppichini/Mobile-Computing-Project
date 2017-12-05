@@ -1,10 +1,10 @@
 var mongoose = require('mongoose')
 var seeder = require('mongoose-seed');
+const User = require('./models/User')
 
 DB_URL = 'mongodb://localhost/mobile_computing'
 
 seeder.connect(DB_URL, function () {
-
   // Load Mongoose models
   seeder.loadModels([
     './models/User.js'
@@ -18,6 +18,15 @@ seeder.connect(DB_URL, function () {
   })
 })
 
+User.collection.dropIndexes(function (err, results) {
+  // Handle errors
+  if(!err){
+    console.log('drop indexes')
+  }
+});
+
+
+
 const data = [{
   'model': 'User',
   'documents': [{
@@ -28,8 +37,8 @@ const data = [{
         blood: 'O+'
       },
       location: {
-        latitude: 46.011095,
-        longitude: 8.957484199999953
+        type: 'Point',
+        coordinates: [8.957484199999953, 46.011095]
       }
     },
     {
@@ -40,8 +49,8 @@ const data = [{
         blood: 'A+'
       },
       location: {
-        latitude: 46.0108692,
-        longitude: 8.96078866
+        type: 'Point',        
+        coordinates: [8.96078866, 6.0108692]
       }
     },
     {
@@ -52,8 +61,8 @@ const data = [{
         blood: 'AB+'
       },
       location: {
-        latitude: 46.0108692,
-        longitude: 8.96078866
+        type: 'Point',        
+        coordinates: [8.96078866, 46.0108692]
       }
     }
   ]

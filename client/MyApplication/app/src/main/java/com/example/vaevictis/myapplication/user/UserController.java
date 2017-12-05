@@ -2,6 +2,8 @@ package com.example.vaevictis.myapplication.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
@@ -10,6 +12,10 @@ import com.example.vaevictis.myapplication.SocketClient;
 import com.example.vaevictis.myapplication.Token;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -160,9 +166,41 @@ public class UserController {
 
         if(isCalling) {
             SocketClient.socket.emit("help","HELP");
-            Toast.makeText(context, "DIOCANE STO MORENDO PORCODIOOOOO", Toast.LENGTH_SHORT).show();
+
+            SocketClient.socket.on("help_request", new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+                    JSONObject obj = (JSONObject)args[0];
+
+                    try {
+                        final JSONObject from = (JSONObject) obj.get("from");
+
+                        System.out.println("User " + from.get("email") + " ask for help!");
+
+                        Handler toastHandler = new Handler(Looper.getMainLooper());
+
+                        toastHandler.post(new Runnable() {
+                            public void run() {
+                                try {
+
+                                    DynamicToast.makeWarning(context, "User " + from.get("email") + " ask for help!",Toast.LENGTH_LONG).show();}
+                                    catch (JSONException e) {
+                                        System.out.println(e.getCause());
+                                    }
+                            }
+                        });
+
+                    } catch (JSONException e) {
+                        System.out.println(e.getCause());
+                    }
+
+                }
+            });
+//            Toast.makeText(context, "HELPPPPPPPPP", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Tutto nbene m8", Toast.LENGTH_SHORT).show();
+            System.out.println("ALL GOOD");
+//            Toast.makeText(context, "All good", Toast.LENGTH_SHORT).show();
         }
     }
 

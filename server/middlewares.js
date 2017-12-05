@@ -1,4 +1,5 @@
 var jwt = require('jsonwebtoken')
+const User = require('./models/User')
 
 const errors = { TOKEN_NOT_PROVIDED: { message: "Token not provided" }}
 

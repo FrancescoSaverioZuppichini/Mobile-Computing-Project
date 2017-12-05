@@ -29,45 +29,16 @@ public class HomeActivity extends AppCompatActivity {
         googleAPIService.getClient();
 
         locationController.initialise();
-        askForHelpButton = findViewById(R.id.main_phone);
 
         userController = new UserController(this);
-
+///     fetch current user info
         userController.getMe();
+
         System.out.println(UserController.user.getToken().getValue());
 
+        askForHelpButton = findViewById(R.id.main_phone);
         addListenerOnButton();
 
-//
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                locationController.
-//            }
-//        });
-
-//
-//        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
-//        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("Settings");
-//
-////create the drawer and remember the `Drawer` result object
-//        Drawer result = new DrawerBuilder()
-//                .withActivity(this)
-//                .withToolbar(toolbar)
-//                .addDrawerItems(
-//                        item1,
-//                        new DividerDrawerItem(),
-//                        item2
-//                )
-//                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-//                    @Override
-//                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-//                        // do something with the clicked item :D
-//
-//                        return false;
-//                    }
-//                })
-//                .build();
 
     }
 
