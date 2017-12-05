@@ -21,6 +21,7 @@ public class UserController {
     public static User user = new User();
 
     private Context context;
+    private boolean isCalling = false;
 
     public UserController(Context context) {
         this.context = context;
@@ -72,7 +73,7 @@ public class UserController {
                     DynamicToast.makeSuccess(context, "Account successfully created!").show();
 
                     doSignIn(user.getEmail(), user.getPassword());
-                    
+
                 } else {
                     System.out.println("SOMETHING EXPLODED");
                 }
@@ -117,5 +118,19 @@ public class UserController {
         });
     }
 
+    public void askForHelp(){
+
+        isCalling = !isCalling;
+
+        if(isCalling) {
+            Toast.makeText(context, "DIOCANE STO MORENDO PORCODIOOOOO", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Tutto nbene m8", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean isCalling(){
+        return this.isCalling;
+    }
 
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyApplication</string>
+    <string name="app_name">FindMyCross</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_auth_view2">AuthView2</string>
     <string name="user">User</string>

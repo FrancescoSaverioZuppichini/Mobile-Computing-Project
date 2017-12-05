@@ -8,8 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIProvider {
-    public static final String BASE_URL = "http://192.168.1.20:3000/";
+//    public static final String BASE_URL = "http://192.168.1.20:3000/";
 //    public static final String BASE_URL = "http://10.62.132.253:3000/";
+    public static final String BASE_URL = "http://192.168.8.107:3000";
 
     private static APIService sRetrofit = null;
 

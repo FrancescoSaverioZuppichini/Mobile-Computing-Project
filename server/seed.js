@@ -21,8 +21,8 @@ seeder.connect(DB_URL, function () {
 const data = [{
   'model': 'User',
   'documents': [{
-      email: 'alessia@95Xd.com',
-      password: 'francesco<3',
+      email: 'a@b.com',
+      password: 'a',
       role: 'VOLUNTEER',
       medicInfo: {
         blood: 'O+'

@@ -57,15 +57,17 @@ var userSchema = new Schema({
 })
 // hash password before store it 
 userSchema.pre("save", async function (next) {
-
   try {
     var error = this.validateSync()
 
     if (error) throw new Error(error)
 
-    const hash = await bcrypt.hashSync(this.password, 10)
-
-    this.password = hash
+    // if (this.isModified('password')){
+    //   console.log("DIOCANENENNENE")
+      const hash = await bcrypt.hashSync(this.password, 10)
+      this.password = hash
+    // }
+    
     next()
 
   } catch (err) {

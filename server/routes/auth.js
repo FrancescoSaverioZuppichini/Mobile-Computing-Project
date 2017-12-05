@@ -17,15 +17,15 @@ router.put('/', async(req, res, next) => {
   try {
     const email = req.body.email
     const password = req.body.password
-    
     const user = await User.findOne({
       email: email
     })
-
+    
     if (!user) throw errors.PASSWORD_NOT_VALID
-
+    
     if (!user.passwordIsValid(password, user.password)) throw errors.PASSWORD_NOT_VALID
 
+    
     req.user = user
 
     next()
