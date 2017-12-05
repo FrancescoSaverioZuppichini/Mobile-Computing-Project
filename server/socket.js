@@ -21,11 +21,14 @@ module.exports = function(server) {
         socket.on("help", async (data) =>{
             console.log(socket.user_id)
             console.log(data)
-            const user = await User.findById(socket.user_id)
-            const neighbors = await user.getNeighbors()
+            var user = await User.findById(socket.user_id)
+            var neighbors = await user.getNeighbors()
+
+            neighbors.shift()
+            
             // TODO remove it added only for debugging
             neighbors.forEach( neighbor => {
-                console.log(neighbor.email)
+                // console.log(neighbor.email)
                 if(users[neighbor._id]){
                     users[neighbor._id].emit("help_request", { from: user } )
                 }

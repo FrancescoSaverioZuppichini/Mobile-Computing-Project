@@ -54,8 +54,8 @@ const data = [{
       }
     },
     {
-      email: 'thomas@imanol.com',
-      password: 'jurgen',
+      email: 'b@b.com',
+      password: 'a',
       role: 'VOLUNTEER',
       medicInfo: {
         blood: 'AB+'

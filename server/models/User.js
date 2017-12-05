@@ -43,7 +43,7 @@ var userSchema = new Schema({
     },
     radiusInMeters: {
       type: Number,
-      default: 3000.0
+      default: 3000
     }
   },
   location: {
@@ -89,7 +89,7 @@ userSchema.methods.getNeighbors = function(from) {
             },
             "distanceField": "dist",
             "spherical": true,
-            "maxDistance": 10000
+            "maxDistance": this.radiusInMeters
         }}
     ])
 }

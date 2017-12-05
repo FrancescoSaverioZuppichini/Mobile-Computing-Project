@@ -112,7 +112,8 @@ public class UserController {
                     user = updatedUser;
                     System.out.println(user.getEmail() + ' '  + user.getPassword());
 
-                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
+                    System.out.println("POSITION UPDATED");
+//                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
 
                 }
                 else {
