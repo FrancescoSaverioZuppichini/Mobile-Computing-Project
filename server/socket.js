@@ -23,17 +23,17 @@ module.exports = function(server) {
             console.log(data)
             var user = await User.findById(socket.user_id)
             var neighbors = await user.getNeighbors()
-
-            neighbors.shift()
+            // CHECK: should I remove myself?
+            // neighbors.shift()
             
-            // TODO remove it added only for debugging
             neighbors.forEach( neighbor => {
-                // console.log(neighbor.email)
-                if(users[neighbor._id]){
-                    users[neighbor._id].emit("help_request", { from: user } )
+                const socket = users[neighbor._id]
+                const isOnline = socket != null
+
+                if(isOnline){
+                    socket.emit("help_request", { from: user } )
                 }
             } )
-            // TODO fetch the closest user
         })
 
         socket.on('disconnect', function(){

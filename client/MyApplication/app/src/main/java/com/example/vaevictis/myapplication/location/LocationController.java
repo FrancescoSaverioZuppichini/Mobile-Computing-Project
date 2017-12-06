@@ -23,7 +23,7 @@ public class LocationController implements LocationListener{
     private Context context;
 
     private int MIN_TIME = 3000;
-    private float MIN_DISTANCE = (float) 0.1;
+    private float MIN_DISTANCE = (float) 1;
 
     public LocationController(Context context) {
 

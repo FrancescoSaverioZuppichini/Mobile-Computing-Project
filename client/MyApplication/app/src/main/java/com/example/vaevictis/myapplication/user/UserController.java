@@ -77,7 +77,6 @@ public class UserController {
 
                 if(response.isSuccessful()) {
 
-
                     DynamicToast.makeSuccess(context, "Account successfully created!").show();
 
                     doSignIn(user.getEmail(), user.getPassword());

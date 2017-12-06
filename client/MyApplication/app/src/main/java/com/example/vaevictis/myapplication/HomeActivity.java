@@ -1,20 +1,28 @@
 package com.example.vaevictis.myapplication;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
-import com.example.vaevictis.myapplication.location.LocationController;
 import com.example.vaevictis.myapplication.user.UserController;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 public class HomeActivity extends AppCompatActivity {
-    FloatingActionButton askForHelpButton;
-    LocationController locationController;
-    YoYo.YoYoString animation;
+    HomeFragment homeFragment = new HomeFragment();
+    SettingFragment settingFragment = new SettingFragment();
+
+    Drawer myDrawer;
 
     UserController userController;
 
@@ -23,47 +31,78 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, homeFragment)
+                .commit();
+        addDrawer();
 
         GoogleAPIService googleAPIService = new GoogleAPIService(this);
-        locationController = new LocationController(this);
         googleAPIService.getClient();
 
-        locationController.initialise();
-
-        userController = new UserController(this);
-///     fetch current user info
-        userController.getMe();
 
         System.out.println(UserController.user.getToken().getValue());
 
-        askForHelpButton = findViewById(R.id.main_phone);
-        addListenerOnButton();
-
-
     }
 
-    private void addListenerOnButton() {
-        askForHelpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    private void addDrawer(){
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
-                userController.askForHelp();
+        PrimaryDrawerItem home = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_home);
+        final SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_settings);
 
-                int icon = userController.isCalling() ? R.drawable.ic_call_end_black_24px : R.drawable.ic_phone_black_24px;
+//        TODO for color
+//        .withHeaderBackground(R.drawable.header)
 
-                if(!userController.isCalling()){
-                    System.out.println("STOP");
-                    animation.stop(false);
-                }
-                else {
-                    animation = YoYo.with(Techniques.Tada)
-                            .duration(700)
-                            .repeat(YoYo.INFINITE)
-                            .playOn(askForHelpButton);
-                }
-                askForHelpButton.setImageResource(icon);
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.color.md_red_700)
+                .addProfiles(
+                        new ProfileDrawerItem().withEmail(UserController.user.getEmail()).withIcon(getResources().getDrawable(R.drawable.ic_61205))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .build();
 
-            }
-        });
+        myDrawer = new DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(headerResult)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        home,
+                        new DividerDrawerItem(),
+                        settings
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        System.out.println(position);
+                        switch (position){
+                            case(3):
+                                System.out.println("SETTINGS");
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, settingFragment)
+                                        .commit();
+                                break;
+                            case(1):
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, homeFragment)
+                                        .commit();
+                                System.out.println("HOME");
+                        }
+                        // do something with the clicked item :D
+
+                        myDrawer.closeDrawer();
+
+                        return true;
+
+                    }
+                })
+                .build();
     }
+
+
 }
