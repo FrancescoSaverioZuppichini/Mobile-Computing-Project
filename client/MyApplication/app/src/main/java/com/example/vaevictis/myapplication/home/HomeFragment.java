@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.andremion.counterfab.CounterFab;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.vaevictis.myapplication.R;
@@ -19,6 +20,7 @@ public class HomeFragment extends android.app.Fragment {
 
     FloatingActionButton askForHelpButton;
     LocationController locationController;
+    CounterFab peopleCounterFab;
 
     YoYo.YoYoString animation;
     UserController userController;
@@ -35,8 +37,8 @@ public class HomeFragment extends android.app.Fragment {
         locationController = new LocationController(myView.getContext());
         locationController.initialise();
 
-
         askForHelpButton = myView.findViewById(R.id.main_phone);
+
         addListenerOnButton();
 
         return myView;

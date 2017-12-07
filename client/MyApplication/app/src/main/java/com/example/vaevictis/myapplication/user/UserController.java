@@ -1,5 +1,6 @@
 package com.example.vaevictis.myapplication.user;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -8,8 +9,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
+import com.andremion.counterfab.CounterFab;
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.APIProvider.SocketClient;
+import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.UserAskForHelpDialog;
 import com.example.vaevictis.myapplication.auth.Token;
 import com.example.vaevictis.myapplication.home.HomeActivity;
@@ -229,8 +232,13 @@ public class UserController {
 //                    TODO add a counter on users fab
                     Handler toastHandler = new Handler(Looper.getMainLooper());
 
+
+
+
                     toastHandler.post(new Runnable() {
                         public void run() {
+                            CounterFab counterFab = (CounterFab)  ((Activity) context).findViewById(R.id.people);
+                            counterFab.increase(); // Increase the current count value by 1
                             DynamicToast.makeSuccess(context, "User " + userThatWillHelp.getEmail() +  " will help you", Toast.LENGTH_LONG).show();
 
                         }

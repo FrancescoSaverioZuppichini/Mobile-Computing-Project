@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.example.vaevictis.myapplication"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -48,7 +48,7 @@ dependencies {
     implementation "com.android.support:design:26.1.0"
     compile 'com.daimajia.easing:library:2.0@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
-//    compile 'com.github.andremion:counterfab:1.0.2'
+    compile 'com.github.andremion:counterfab:1.0.3'
     compile('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'

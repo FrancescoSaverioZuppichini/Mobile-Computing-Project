@@ -41,7 +41,7 @@
         </LinearLayout>
 
 
-           <android.support.design.widget.FloatingActionButton
+           <com.andremion.counterfab.CounterFab
                android:id="@+id/people"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
