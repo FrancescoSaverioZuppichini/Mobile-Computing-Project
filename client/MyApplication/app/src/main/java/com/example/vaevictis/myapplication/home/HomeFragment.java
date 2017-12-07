@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication;
+package com.example.vaevictis.myapplication.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.location.LocationController;
 import com.example.vaevictis.myapplication.user.UserController;
 

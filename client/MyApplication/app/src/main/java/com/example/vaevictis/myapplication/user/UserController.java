@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
-import com.example.vaevictis.myapplication.HomeActivity;
-import com.example.vaevictis.myapplication.SocketClient;
-import com.example.vaevictis.myapplication.Token;
+import com.example.vaevictis.myapplication.APIProvider.SocketClient;
+import com.example.vaevictis.myapplication.UserAskForHelpDialog;
+import com.example.vaevictis.myapplication.auth.Token;
+import com.example.vaevictis.myapplication.home.HomeActivity;
+import com.google.gson.Gson;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.json.JSONException;
@@ -26,7 +30,7 @@ import retrofit2.Response;
 
 public class UserController {
     public static User user = new User();
-
+    public static User fromUser;
     private Context context;
     private boolean isCalling = false;
 
@@ -175,19 +179,24 @@ public class UserController {
 
                     try {
                         final JSONObject from = (JSONObject) obj.get("from");
+                        Gson gson = new Gson();
 
-                        System.out.println("User " + from.get("email") + " ask for help!");
+                        fromUser = gson.fromJson(from.toString(), User.class);
 
                         Handler toastHandler = new Handler(Looper.getMainLooper());
 
                         toastHandler.post(new Runnable() {
                             public void run() {
-                                try {
+//                                    andoird is shit LOL
+                                    FragmentActivity activity = (FragmentActivity) context;
+                                    FragmentManager manager = activity.getSupportFragmentManager();
 
-                                    DynamicToast.makeWarning(context, "User " + from.get("email") + " ask for help!",Toast.LENGTH_LONG).show();}
-                                    catch (JSONException e) {
-                                        System.out.println(e.getCause());
-                                    }
+                                    UserAskForHelpDialog newFragment = new UserAskForHelpDialog();
+
+                                    newFragment.show(manager, "help");
+
+//                                    DynamicToast.makeWarning(context, "User " + from.get("email") + " ask for help!",Toast.LENGTH_LONG).show();}
+
                             }
                         });
 
@@ -197,11 +206,41 @@ public class UserController {
 
                 }
             });
+
 //            Toast.makeText(context, "HELPPPPPPPPP", Toast.LENGTH_SHORT).show();
         } else {
             System.out.println("ALL GOOD");
 //            Toast.makeText(context, "All good", Toast.LENGTH_SHORT).show();
         }
+
+        SocketClient.socket.on("help_accepted_success", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println("HEEEEELPPP ACCEPTED");
+
+                JSONObject obj = (JSONObject)args[0];
+                try {
+
+                    final JSONObject from = (JSONObject) obj.get("from");
+
+                    Gson gson = new Gson();
+
+                    final User userThatWillHelp = gson.fromJson(from.toString(), User.class);
+//                    TODO add a counter on users fab
+                    Handler toastHandler = new Handler(Looper.getMainLooper());
+
+                    toastHandler.post(new Runnable() {
+                        public void run() {
+                            DynamicToast.makeSuccess(context, "User " + userThatWillHelp.getEmail() +  " will help you", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    System.out.println(e.getCause());
+                }
+            }
+        });
     }
 
     public boolean isCalling(){

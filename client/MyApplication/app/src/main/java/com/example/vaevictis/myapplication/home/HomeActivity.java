@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication;
+package com.example.vaevictis.myapplication.home;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
+import com.example.vaevictis.myapplication.MyMapFragment;
+import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.user.UserController;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -21,6 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 public class HomeActivity extends AppCompatActivity {
     HomeFragment homeFragment = new HomeFragment();
     SettingFragment settingFragment = new SettingFragment();
+    MyMapFragment myMapFragment = new MyMapFragment();
 
     Drawer myDrawer;
 
@@ -48,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         PrimaryDrawerItem home = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_home);
+        final SecondaryDrawerItem map = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_map);
         final SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_settings);
 
 //        TODO for color
@@ -73,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         home,
+                        map,
                         new DividerDrawerItem(),
                         settings
                 )
@@ -81,7 +86,13 @@ public class HomeActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         System.out.println(position);
                         switch (position){
-                            case(3):
+                            case(2):
+                                System.out.println("MAP");
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, myMapFragment)
+                                        .commit();
+                                break;
+                            case(4):
                                 System.out.println("SETTINGS");
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, settingFragment)
@@ -92,6 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                                         .replace(R.id.fragment_container, homeFragment)
                                         .commit();
                                 System.out.println("HOME");
+                                break;
                         }
                         // do something with the clicked item :D
 

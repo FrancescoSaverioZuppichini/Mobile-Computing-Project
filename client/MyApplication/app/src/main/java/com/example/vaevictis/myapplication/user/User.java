@@ -1,6 +1,6 @@
 package com.example.vaevictis.myapplication.user;
 
-import com.example.vaevictis.myapplication.Token;
+import com.example.vaevictis.myapplication.auth.Token;
 import com.example.vaevictis.myapplication.location.RawLocation;
 
 /**
@@ -13,6 +13,7 @@ public class User {
     private String role = "USER";
     private String _id;
     private Token token;
+    private double dist;
     private RawLocation location;
 
     public User(){
@@ -60,4 +61,13 @@ public class User {
     public void set_id(String _id) {
         this._id = _id;
     }
+
+    public double getDist() {
+        return dist;
+    }
+
+    public void setDist(double dist) {
+        this.dist = dist;
+    }
 }
+

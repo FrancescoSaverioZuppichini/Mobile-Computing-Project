@@ -1,6 +1,5 @@
-package com.example.vaevictis.myapplication;
+package com.example.vaevictis.myapplication.APIProvider;
 
-import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.user.UserController;
 
 import io.socket.client.IO;
@@ -33,6 +32,7 @@ final public class SocketClient {
                 }
 
             });
+
             socket.connect();
         } catch (Exception e){
             System.out.println(e.getCause());
