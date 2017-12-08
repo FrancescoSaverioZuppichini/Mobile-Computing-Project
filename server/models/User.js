@@ -51,7 +51,11 @@ var userSchema = new Schema({
       type: String,
       default: 'Point'
     },
-    coordinates: [Number] //longitude, latitude
+    coordinates: { type: [Number], default: [0,0]}
+    },
+  avatar: {
+    type: String,
+    default: false
   }
 })
 

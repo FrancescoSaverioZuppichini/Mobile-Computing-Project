@@ -9,7 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIProvider {
 //    gf'shouse
-    public static final String BASE_URL = "http://192.168.1.66:3000/";
+//    public static final String BASE_URL = "http://192.168.1.66:3000/";
+//    casa verona
+      public static final String BASE_URL = "http://192.168.1.193:3000/";
 //    my house lugano
 //    public static final String BASE_URL = "http://192.168.1.20:3000/";
 //    uni

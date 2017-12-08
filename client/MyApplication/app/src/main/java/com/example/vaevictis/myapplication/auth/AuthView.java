@@ -38,14 +38,16 @@ public class AuthView extends AppCompatActivity implements Validator.ValidationL
 
         userController = new UserController(this);
 
+        userController.signInIfAlreadyAToken();
+
         validator = new Validator(this);
         validator.setValidationListener(this);
 
-        signIn = (Button) findViewById(R.id.signIn);
-        signUp = (Button) findViewById(R.id.signUp);
+        signIn =  findViewById(R.id.signIn);
+        signUp =  findViewById(R.id.signUp);
 
-        emailField = (EditText) findViewById(R.id.email);
-        passwordField = (EditText) findViewById(R.id.password);
+        emailField =  findViewById(R.id.email);
+        passwordField = findViewById(R.id.password);
 
         addListenerOnButton();
 

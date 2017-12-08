@@ -39,14 +39,11 @@ router.get('/nearby', async(req, res, next) => {
     res.json(users)
       
   } catch (err) {
-    console.log(err);
     next(err)
   }
 })
 
-router.put('/', async(req, res, next) => {
-  console.log(req.body.location, '*************************************************')
-  
+router.put('/', async(req, res, next) => {  
   try {
     var updatedUser = await User.findByIdAndUpdate(req.user._id, {
       $set: req.body
@@ -55,17 +52,13 @@ router.put('/', async(req, res, next) => {
       runValidators: true
     })
 
-
     updatedUser = await updatedUser.save()
     updatedUser = updatedUser.toObject()
     delete updatedUser.password
 
-    // console.log(updatedUser)
-
     res.send(updatedUser);
 
   } catch (err) {
-    console.log(err)
     next(err)
   }
 })

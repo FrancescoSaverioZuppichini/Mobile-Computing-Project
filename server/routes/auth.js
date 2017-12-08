@@ -1,6 +1,9 @@
 var express = require('express');
 var jwt = require('jsonwebtoken-refresh')
 var User = require('../models/User')
+var fs = require('fs');
+var path = require('path')
+var save = require('no-avatar').save
 
 var router = express.Router();
 // custom errors
@@ -52,12 +55,23 @@ router.post('/', async(req, res, next) => {
     })
 
     if (userWithThatEmailAlreadyExists) throw errors.EMAIL_ALREADY_IN_USE
+    
+    var newUser = await User(req.body).save()
+    
+    const staticPath = `images/${newUser._id}.png`
+    const savePath = path.resolve(__dirname,`../public/${staticPath}`)
 
-    const newUser = await User(req.body).save()
+    await save(savePath, { text : newUser.email, bgColor: "#BDBDBD" }, function(err){
+      if(err) return console.log(err);
+              return console.log('avatar.png saved at path ' + savePath);
+    });
+
+    newUser = await User.findByIdAndUpdate(newUser._id, { $set: { avatar: staticPath } }, { new: true})
     
     res.status(201).json(newUser)
 
   } catch (err) {
+    console.log(err)
     next(err)
   }
 })

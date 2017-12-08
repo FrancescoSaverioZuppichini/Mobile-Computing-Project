@@ -3,6 +3,7 @@ package com.example.vaevictis.myapplication.user;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
@@ -57,6 +58,11 @@ public class UserController {
 
                     DynamicToast.makeSuccess(context, "Login successful!").show();
 
+                    SharedPreferences pref = context.getSharedPreferences("findMyCross", 0);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("token", token.getValue());
+                    editor.apply();
+
                     Intent goToHome = new Intent(context, HomeActivity.class);
                     context.startActivity(goToHome);
 
@@ -72,6 +78,17 @@ public class UserController {
             }
         });
 
+    }
+
+    public void signInIfAlreadyAToken(){
+        SharedPreferences pref = context.getSharedPreferences("findMyCross", 0);
+        String token = pref.getString("token", null);
+
+        if(token != null) {
+            user.setToken(new Token(token));
+            Intent goToHome = new Intent(context, HomeActivity.class);
+            context.startActivity(goToHome);
+        }
     }
 
     public void doSignUp(String email, String password) {
@@ -197,9 +214,6 @@ public class UserController {
                                     UserAskForHelpDialog newFragment = new UserAskForHelpDialog();
 
                                     newFragment.show(manager, "help");
-
-//                                    DynamicToast.makeWarning(context, "User " + from.get("email") + " ask for help!",Toast.LENGTH_LONG).show();}
-
                             }
                         });
 
@@ -229,15 +243,12 @@ public class UserController {
                     Gson gson = new Gson();
 
                     final User userThatWillHelp = gson.fromJson(from.toString(), User.class);
-//                    TODO add a counter on users fab
+
                     Handler toastHandler = new Handler(Looper.getMainLooper());
-
-
-
 
                     toastHandler.post(new Runnable() {
                         public void run() {
-                            CounterFab counterFab = (CounterFab)  ((Activity) context).findViewById(R.id.people);
+                            CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
                             counterFab.increase(); // Increase the current count value by 1
                             DynamicToast.makeSuccess(context, "User " + userThatWillHelp.getEmail() +  " will help you", Toast.LENGTH_LONG).show();
 
