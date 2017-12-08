@@ -33,6 +33,7 @@ import retrofit2.Response;
  */
 
 public class UserController {
+    final static String PREF_KEY = "findMyCross";
     public static User user = new User();
     public static User fromUser;
     private Context context;
@@ -58,7 +59,7 @@ public class UserController {
 
                     DynamicToast.makeSuccess(context, "Login successful!").show();
 
-                    SharedPreferences pref = context.getSharedPreferences("findMyCross", 0);
+                    SharedPreferences pref = context.getSharedPreferences(PREF_KEY, 0);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("token", token.getValue());
                     editor.apply();
@@ -81,7 +82,7 @@ public class UserController {
     }
 
     public void signInIfAlreadyAToken(){
-        SharedPreferences pref = context.getSharedPreferences("findMyCross", 0);
+        SharedPreferences pref = context.getSharedPreferences(PREF_KEY, 0);
         String token = pref.getString("token", null);
 
         if(token != null) {
@@ -116,6 +117,16 @@ public class UserController {
 
             }
         });
+    }
+
+    public void doLogout(){
+        SharedPreferences preferences = context.getSharedPreferences(PREF_KEY, 0);
+        preferences.edit().remove("token").apply();
+        user = new User();
+
+//        Intent goAuth = new Intent(context, AuthView.class);
+//        context.startActivity(goAuth);
+
     }
 
     public void updateUser(){

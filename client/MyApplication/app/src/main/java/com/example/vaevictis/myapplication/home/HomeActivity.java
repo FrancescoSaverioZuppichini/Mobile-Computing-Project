@@ -34,6 +34,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        userController = new UserController(this);
+
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, homeFragment)
                 .commit();
@@ -53,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         PrimaryDrawerItem home = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_home);
         final SecondaryDrawerItem map = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_map);
         final SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_settings);
+        final SecondaryDrawerItem logout = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_logout);
 
 //        TODO for color
 //        .withHeaderBackground(R.drawable.header)
@@ -79,7 +82,8 @@ public class HomeActivity extends AppCompatActivity {
                         home,
                         map,
                         new DividerDrawerItem(),
-                        settings
+                        settings,
+                        logout
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -104,6 +108,12 @@ public class HomeActivity extends AppCompatActivity {
                                         .commit();
                                 System.out.println("HOME");
                                 break;
+                            case(5):
+                                userController.doLogout();
+                                onBackPressed();
+
+                                System.out.println("LOGOUT");
+
                         }
                         // do something with the clicked item :D
 
