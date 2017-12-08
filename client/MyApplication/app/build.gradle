@@ -49,6 +49,7 @@ dependencies {
     compile 'com.daimajia.easing:library:2.0@aar'
     compile 'com.daimajia.androidanimations:library:2.3@aar'
     compile 'com.github.andremion:counterfab:1.0.3'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'

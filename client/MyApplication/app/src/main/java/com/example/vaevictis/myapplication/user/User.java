@@ -14,6 +14,7 @@ public class User {
     private String _id;
     private Token token;
     private double dist;
+    private String avatar;
     private RawLocation location;
 
     public User(){
@@ -68,6 +69,14 @@ public class User {
 
     public void setDist(double dist) {
         this.dist = dist;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
 
