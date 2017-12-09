@@ -11,14 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
+import com.directions.route.Routing;
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.APIProvider.SocketClient;
+import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
 import com.example.vaevictis.myapplication.MyMapFragment;
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.UserAskForHelpDialog;
 import com.example.vaevictis.myapplication.auth.Token;
 import com.example.vaevictis.myapplication.home.HomeActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
@@ -157,11 +158,25 @@ public class UserController {
 
                     System.out.println("POSITION UPDATED");
 
-                    if(MyMapFragment.map != null){
-                        System.out.println("MAP HEREE");
+                    if(MyMapFragment.map != null) {
                         LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
-                        MyMapFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
 
+                        LatLng usi = new LatLng(46.010798,8.959626);
+
+                        Routing routing = new Routing.Builder()
+                                .travelMode(Routing.TravelMode.DRIVING)
+                                .withListener(((HomeActivity) context).getMyMapFragment())
+                                .waypoints(here, usi)
+                                .key(GoogleAPIService.API_KEY)
+                                .build();
+                        routing.execute();
+
+
+
+//                        System.out.println("MAP HEREE");
+//                        MyMapFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
+//                        MyMapFragment.map.addMarker(new MarkerOptions().position(here));
+//                        MyMapFragment.map.addCircle(new CircleOptions().center(here).radius(1000).strokeColor(Color.RED).fillColor(Color.RED));
                     }
 //                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
 

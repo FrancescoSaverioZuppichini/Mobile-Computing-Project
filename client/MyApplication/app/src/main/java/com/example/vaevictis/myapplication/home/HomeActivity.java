@@ -38,6 +38,10 @@ public class HomeActivity extends AppCompatActivity {
 
     UserController userController;
 
+    public MyMapFragment getMyMapFragment() {
+        return myMapFragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

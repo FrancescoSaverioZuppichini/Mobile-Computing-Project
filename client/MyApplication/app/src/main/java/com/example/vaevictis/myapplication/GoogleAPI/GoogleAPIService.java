@@ -15,7 +15,7 @@ import com.google.android.gms.location.LocationServices;
  */
 
 public class GoogleAPIService implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
-    static final String API_KEY = "AIzaSyDMCaYL4t_p_8GEkiMbKf-SqGcG78QFP8g";
+    static final public String API_KEY = "AIzaSyDMCaYL4t_p_8GEkiMbKf-SqGcG78QFP8g";
     private Context context;
     private GoogleApiClient client;
 
