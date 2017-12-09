@@ -71,8 +71,7 @@ public class UserController {
                     editor.putString("token", token.getValue());
                     editor.apply();
 
-                    Intent goToHome = new Intent(context, HomeActivity.class);
-                    context.startActivity(goToHome);
+                    getMe();
 
                 } else {
 
@@ -95,8 +94,7 @@ public class UserController {
         if(token != null) {
             user.setToken(new Token(token));
             isLoggedIn = true;
-            Intent goToHome = new Intent(context, HomeActivity.class);
-            context.startActivity(goToHome);
+            getMe();
         }
     }
 
@@ -212,7 +210,8 @@ public class UserController {
                     SocketClient.start();
                     SocketClient.socket.connect();
                     SocketClient.socket.emit("test","hiii");
-
+                    Intent goToHome = new Intent(context, HomeActivity.class);
+                    context.startActivity(goToHome);
 
                 } else {
                     System.out.println(response.errorBody());

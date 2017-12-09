@@ -76,7 +76,7 @@ public class MyMapFragment extends Fragment implements OnMapReadyCallback, Routi
 
         map.moveCamera(center);
         map.animateCamera(zoom);
-        
+
         if(polylines.size()>0) {
             for (Polyline poly : polylines) {
                 poly.remove();

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
 import com.example.vaevictis.myapplication.MyMapFragment;
 import com.example.vaevictis.myapplication.R;
@@ -63,34 +64,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void addDrawer(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
-        PrimaryDrawerItem home = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_home);
-        final SecondaryDrawerItem map = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_map);
-        final SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_settings);
-        final SecondaryDrawerItem logout = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_logout);
-
-//        TODO for color
-//        .withHeaderBackground(R.drawable.header)
-
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.color.md_red_700)
-                .addProfiles(
-                        new ProfileDrawerItem().withEmail(UserController.user.getEmail())
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
-                .build();
-
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                Picasso.with(imageView.getContext()).load("https://t3.ftcdn.net/jpg/01/06/07/16/240_F_106071621_UwCztl7yyMbVNSMijfuYyZrzbtmoxJPH.jpg").placeholder(placeholder).into(imageView);
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
             }
 
             @Override
@@ -116,6 +93,30 @@ public class HomeActivity extends AppCompatActivity {
                 return super.placeholder(ctx, tag);
             }
         });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        PrimaryDrawerItem home = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_home);
+        final SecondaryDrawerItem map = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_map);
+        final SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_settings);
+        final SecondaryDrawerItem logout = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_logout);
+
+//        TODO for color
+//        .withHeaderBackground(R.drawable.header)
+
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.color.md_red_700)
+                .addProfiles(
+                        new ProfileDrawerItem().withEmail(UserController.user.getEmail()).withIcon(APIProvider.BASE_URL + UserController.user.getAvatar()).withIdentifier(100)
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .build();
 
         myDrawer = new DrawerBuilder()
                 .withActivity(this)

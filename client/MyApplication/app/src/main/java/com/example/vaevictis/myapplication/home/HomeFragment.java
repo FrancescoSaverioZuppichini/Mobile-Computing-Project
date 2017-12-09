@@ -32,7 +32,7 @@ public class HomeFragment extends android.app.Fragment {
         myView = inflater.inflate(R.layout.fragment_home, container, false);
 
         userController = new UserController(myView.getContext());
-        userController.getMe();
+//        userController.getMe();
 
         locationController = new LocationController(myView.getContext());
         locationController.initialise();
