@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.example.vaevictis.myapplication"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -50,6 +50,8 @@ dependencies {
     compile 'com.daimajia.androidanimations:library:2.3@aar'
     compile 'com.github.andremion:counterfab:1.0.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
+//    compile 'com.google.maps:google-maps-services:0.1.20'
+    compile 'com.github.jd-alexander:library:1.1.0'
     compile('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'

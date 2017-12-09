@@ -13,10 +13,13 @@ import android.widget.Toast;
 import com.andremion.counterfab.CounterFab;
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.APIProvider.SocketClient;
+import com.example.vaevictis.myapplication.MyMapFragment;
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.UserAskForHelpDialog;
 import com.example.vaevictis.myapplication.auth.Token;
 import com.example.vaevictis.myapplication.home.HomeActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -33,6 +36,7 @@ import retrofit2.Response;
  */
 
 public class UserController {
+    public static boolean isLoggedIn = false;
     final static String PREF_KEY = "findMyCross";
     public static User user = new User();
     public static User fromUser;
@@ -58,6 +62,8 @@ public class UserController {
                     user.setToken(token);
 
                     DynamicToast.makeSuccess(context, "Login successful!").show();
+
+                    isLoggedIn = true;
 
                     SharedPreferences pref = context.getSharedPreferences(PREF_KEY, 0);
                     SharedPreferences.Editor editor = pref.edit();
@@ -87,6 +93,7 @@ public class UserController {
 
         if(token != null) {
             user.setToken(new Token(token));
+            isLoggedIn = true;
             Intent goToHome = new Intent(context, HomeActivity.class);
             context.startActivity(goToHome);
         }
@@ -130,7 +137,9 @@ public class UserController {
     }
 
     public void updateUser(){
-
+        if(!isLoggedIn) {
+            return;
+        }
         final Call<User> res = APIProvider.service.updateMe(user, "Bearer " + user.getToken().getValue());
 
         res.enqueue(new Callback<User>() {
@@ -147,7 +156,15 @@ public class UserController {
                     System.out.println(user.getEmail() + ' '  + user.getPassword());
 
                     System.out.println("POSITION UPDATED");
+
+                    if(MyMapFragment.map != null){
+                        System.out.println("MAP HEREE");
+                        LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
+                        MyMapFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
+
+                    }
 //                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
+
 
                 }
                 else {

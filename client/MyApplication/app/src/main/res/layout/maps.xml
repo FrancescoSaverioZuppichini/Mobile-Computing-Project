@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <fragment
         android:id="@+id/mapsfragment"
-        class="com.google.android.gms.maps.MapFragment"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

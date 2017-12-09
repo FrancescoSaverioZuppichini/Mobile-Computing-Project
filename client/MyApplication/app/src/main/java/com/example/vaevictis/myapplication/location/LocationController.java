@@ -23,7 +23,7 @@ public class LocationController implements LocationListener{
     private Context context;
 
     private int MIN_TIME = 3000;
-    private float MIN_DISTANCE = (float) 1;
+    private float MIN_DISTANCE = (float) 0.1;
 
     public LocationController(Context context) {
 
@@ -33,8 +33,9 @@ public class LocationController implements LocationListener{
 
     public void initialise(){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            this.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-        } else {
+
             ActivityCompat.requestPermissions((Activity) context,new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, 1);
         }
     }
@@ -46,7 +47,6 @@ public class LocationController implements LocationListener{
         UserController userController = new UserController(this.context);
 
         userController.updateUser();
-
     }
 
     @Override

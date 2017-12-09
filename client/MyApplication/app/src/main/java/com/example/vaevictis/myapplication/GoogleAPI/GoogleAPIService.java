@@ -15,7 +15,7 @@ import com.google.android.gms.location.LocationServices;
  */
 
 public class GoogleAPIService implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
-
+    static final String API_KEY = "AIzaSyDMCaYL4t_p_8GEkiMbKf-SqGcG78QFP8g";
     private Context context;
     private GoogleApiClient client;
 
@@ -52,5 +52,13 @@ public class GoogleAPIService implements GoogleApiClient.ConnectionCallbacks,Goo
 
     }
 
+//    private GeoApiContext getGeoContext() {
+//        GeoApiContext geoApiContext = new GeoApiContext();
+//        return geoApiContext.setQueryRateLimit(3)
+//                .setApiKey(API_KEY)
+//                .setConnectTimeout(1, TimeUnit.SECONDS)
+//                .setReadTimeout(1, TimeUnit.SECONDS)
+//                .setWriteTimeout(1, TimeUnit.SECONDS);
+//    }
 
 }
