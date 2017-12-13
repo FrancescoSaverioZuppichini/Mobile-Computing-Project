@@ -1,6 +1,6 @@
 package com.example.vaevictis.myapplication.APIProvider;
 
-import com.example.vaevictis.myapplication.user.UserController;
+import com.example.vaevictis.myapplication.controllers.UserController;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;

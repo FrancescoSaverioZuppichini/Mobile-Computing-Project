@@ -1,7 +1,7 @@
 package com.example.vaevictis.myapplication.APIProvider;
 
-import com.example.vaevictis.myapplication.auth.Token;
-import com.example.vaevictis.myapplication.user.User;
+import com.example.vaevictis.myapplication.models.Token;
+import com.example.vaevictis.myapplication.models.User;
 
 import java.util.List;
 
