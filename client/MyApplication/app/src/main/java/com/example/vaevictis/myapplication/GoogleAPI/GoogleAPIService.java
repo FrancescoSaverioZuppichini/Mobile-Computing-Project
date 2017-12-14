@@ -52,13 +52,4 @@ public class GoogleAPIService implements GoogleApiClient.ConnectionCallbacks,Goo
 
     }
 
-//    private GeoApiContext getGeoContext() {
-//        GeoApiContext geoApiContext = new GeoApiContext();
-//        return geoApiContext.setQueryRateLimit(3)
-//                .setApiKey(API_KEY)
-//                .setConnectTimeout(1, TimeUnit.SECONDS)
-//                .setReadTimeout(1, TimeUnit.SECONDS)
-//                .setWriteTimeout(1, TimeUnit.SECONDS);
-//    }
-
 }

@@ -1,5 +1,8 @@
 package com.example.vaevictis.myapplication;
 
+import com.example.vaevictis.myapplication.models.User;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +19,17 @@ final public class Utils {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static boolean checkIfUserIsAlreadyHelping(User user,ArrayList<User> usersThatAreHelping){
+
+        for(User userThatHelps: usersThatAreHelping){
+            if(userThatHelps.getEmail().equals(user.getEmail())) {
+                userThatHelps = user;
+                return true;
+            }
+        }
+        return false;
     }
 
     static boolean isValidPassword(String pass) {

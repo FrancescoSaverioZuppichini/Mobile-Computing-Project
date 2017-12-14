@@ -41,6 +41,7 @@ dependencies {
     implementation("com.mikepenz:materialdrawer:6.0.2@aar") {
         transitive = true
     }
+    compile 'de.hdodenhof:circleimageview:2.2.0'
 
     implementation "com.android.support:appcompat-v7:26.1.0"
     implementation "com.android.support:recyclerview-v7:26.1.0"
