@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication.auth;
+package com.example.vaevictis.myapplication.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.R;
-import com.example.vaevictis.myapplication.user.UserController;
+import com.example.vaevictis.myapplication.controllers.UserController;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;

@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication.home;
+package com.example.vaevictis.myapplication.views.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;

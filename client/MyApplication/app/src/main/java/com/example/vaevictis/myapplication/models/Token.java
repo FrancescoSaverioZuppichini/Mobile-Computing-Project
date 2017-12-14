@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication.auth;
+package com.example.vaevictis.myapplication.models;
 
 /**
  * Created by vaevictis on 30.11.17.

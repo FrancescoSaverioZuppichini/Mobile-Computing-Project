@@ -1,19 +1,22 @@
-package com.example.vaevictis.myapplication.home;
+package com.example.vaevictis.myapplication.views.activities;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
-import com.example.vaevictis.myapplication.MyMapFragment;
 import com.example.vaevictis.myapplication.R;
-import com.example.vaevictis.myapplication.user.UserController;
+import com.example.vaevictis.myapplication.controllers.UserController;
+import com.example.vaevictis.myapplication.views.dialogs.UserAskForHelpDialog;
+import com.example.vaevictis.myapplication.views.fragments.HomeFragment;
+import com.example.vaevictis.myapplication.views.fragments.MyMapFragment;
+import com.example.vaevictis.myapplication.views.fragments.SettingFragment;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -30,7 +33,7 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.squareup.picasso.Picasso;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends FragmentActivity {
     HomeFragment homeFragment = new HomeFragment();
     SettingFragment settingFragment = new SettingFragment();
     MyMapFragment myMapFragment = new MyMapFragment();
@@ -63,6 +66,25 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if (getIntent().getBooleanExtra("fromNotification", false)) {
+//            be sure to load the fragment before everything
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, homeFragment)
+                    .commit();
+
+            getIntent().removeExtra("fromNotification");
+            UserAskForHelpDialog newFragment = new UserAskForHelpDialog();
+
+            newFragment.show(getSupportFragmentManager(), "help");
+        }
+
+    }
+
     private void addDrawer(){
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
@@ -76,9 +98,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             @Override
             public Drawable placeholder(Context ctx, String tag) {
-                //define different placeholders for different imageView targets
-                //default tags are accessible via the DrawerImageLoader.Tags
-                //custom ones can be checked via string. see the CustomUrlBasePrimaryDrawerItem LINE 111
+
                 if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
                     return DrawerUIUtils.getPlaceHolder(ctx);
                 } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
@@ -87,7 +107,6 @@ public class HomeActivity extends AppCompatActivity {
                     return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
                 }
 
-                //we use the default one for
                 DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name();
 
                 return super.placeholder(ctx, tag);
@@ -100,9 +119,6 @@ public class HomeActivity extends AppCompatActivity {
         final SecondaryDrawerItem map = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_map);
         final SecondaryDrawerItem settings = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_settings);
         final SecondaryDrawerItem logout = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_logout);
-
-//        TODO for color
-//        .withHeaderBackground(R.drawable.header)
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -145,8 +161,10 @@ public class HomeActivity extends AppCompatActivity {
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, settingFragment)
                                         .commit();
+
                                 break;
                             case(1):
+
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, homeFragment)
                                         .commit();
@@ -155,12 +173,9 @@ public class HomeActivity extends AppCompatActivity {
                             case(5):
                                 userController.doLogout();
                                 onBackPressed();
-
                                 System.out.println("LOGOUT");
 
                         }
-                        // do something with the clicked item :D
-
                         myDrawer.closeDrawer();
 
                         return true;

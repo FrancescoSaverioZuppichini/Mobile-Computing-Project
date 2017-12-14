@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication;
+package com.example.vaevictis.myapplication.views.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +11,8 @@ import android.widget.Toast;
 import com.directions.route.Route;
 import com.directions.route.RouteException;
 import com.directions.route.RoutingListener;
-import com.example.vaevictis.myapplication.user.UserController;
+import com.example.vaevictis.myapplication.R;
+import com.example.vaevictis.myapplication.controllers.UserController;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 
 public class MyMapFragment extends Fragment implements OnMapReadyCallback, RoutingListener {
     private View myView;
-    private GoogleMap googleMapInstance;
     static public GoogleMap map = null;
     ArrayList<Polyline> polylines = new ArrayList<>();
     private static final int[] COLORS = new int[]{R.color.primary_dark,R.color.primary,R.color.primary_light,R.color.accent,R.color.primary_dark_material_light};
@@ -41,7 +41,6 @@ public class MyMapFragment extends Fragment implements OnMapReadyCallback, Routi
                 .findFragmentById(R.id.mapsfragment);
 
         mapFrag.getMapAsync(this);
-//        ((MapFragment) getFragmentManager().findFragmentById(R.id.mapsfragment)).getMapAsync(this);
 
         return myView;
     }
@@ -116,5 +115,15 @@ public class MyMapFragment extends Fragment implements OnMapReadyCallback, Routi
     @Override
     public void onRoutingCancelled() {
         System.out.println("onRoutingCancelled");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (map != null) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.mapsfragment)).commit();
+            map = null;
+        }
     }
 }

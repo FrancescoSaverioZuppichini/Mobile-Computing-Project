@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication.location;
+package com.example.vaevictis.myapplication.models;
 
 /**
  * Created by vaevictis on 01.12.17.

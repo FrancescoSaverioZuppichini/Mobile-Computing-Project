@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication;
+package com.example.vaevictis.myapplication.views.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.example.vaevictis.myapplication.APIProvider.SocketClient;
-import com.example.vaevictis.myapplication.user.UserController;
+import com.example.vaevictis.myapplication.controllers.UserController;
 import com.google.gson.Gson;
 
 /**
@@ -20,27 +20,22 @@ public class UserAskForHelpDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            System.out.println(UserController.fromUser);
-            builder.setTitle("User " + UserController.fromUser.getEmail() +  " call for help!");
+         builder.setTitle("User " + UserController.fromUser.getEmail() +  " call for help!");
             builder.setMessage(UserController.fromUser.getDist() + " meters from you")
                     .setPositiveButton("HELP HIM", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Gson gson = new Gson();
-                            // FIRE ZE MISSILES!
+//                            TODO wrap it in a user controller method!
                             SocketClient.socket.emit("help_accepted",gson.toJson(UserController.fromUser));
-
                             dialog.dismiss();
                         }
                     })
                     .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog
+                            // User cancelled the dialog -> do nothing
                         }
                     });
-
-        // Create the AlertDialog object and return it
 
         return builder.create();
     }

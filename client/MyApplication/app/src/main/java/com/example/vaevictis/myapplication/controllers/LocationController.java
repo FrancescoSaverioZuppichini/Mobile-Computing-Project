@@ -1,4 +1,4 @@
-package com.example.vaevictis.myapplication.location;
+package com.example.vaevictis.myapplication.controllers;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,8 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-
-import com.example.vaevictis.myapplication.user.UserController;
 
 
 /**
@@ -42,6 +40,8 @@ public class LocationController implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
+        if(location == null) return;
+
         UserController.user.setLocation(location.getLatitude(), location.getLongitude());
 
         UserController userController = new UserController(this.context);
