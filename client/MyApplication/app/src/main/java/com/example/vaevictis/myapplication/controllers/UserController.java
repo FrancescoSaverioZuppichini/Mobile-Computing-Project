@@ -15,14 +15,18 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
+import com.directions.route.Routing;
 import com.example.vaevictis.myapplication.APIProvider.APIProvider;
 import com.example.vaevictis.myapplication.APIProvider.SocketClient;
+import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.Utils;
+import com.example.vaevictis.myapplication.models.RawLocation;
 import com.example.vaevictis.myapplication.models.Token;
 import com.example.vaevictis.myapplication.models.User;
 import com.example.vaevictis.myapplication.views.activities.HomeActivity;
 import com.example.vaevictis.myapplication.views.dialogs.UserAskForHelpDialog;
+import com.example.vaevictis.myapplication.views.fragments.HelpFragment;
 import com.example.vaevictis.myapplication.views.fragments.MyMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -47,6 +51,7 @@ import retrofit2.Response;
 public class UserController {
     public static boolean isLoggedIn = false;
     final static String PREF_KEY = "findMyCross";
+    public static boolean isHelping = false;
     public static User user = new User();
     public static User fromUser;
     public static ArrayList<User> usersThatHelps = new ArrayList<>();
@@ -165,24 +170,11 @@ public class UserController {
                     if(MyMapFragment.map != null) {
                         LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
 
-//                        LatLng usi = new LatLng(46.010798,8.959626);
-//TODO the code below goes when a user acppted a help request
-//                        Routing routing = new Routing.Builder()
-//                                .travelMode(Routing.TravelMode.DRIVING)
-//                                .withListener(((HomeActivity) context).getMyMapFragment())
-//                                .waypoints(here, usi)
-//                                .key(GoogleAPIService.API_KEY)
-//                                .build();
-//                        routing.execute();
-//
-
                         MyMapFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
                         MyMapFragment.map.addMarker(new MarkerOptions().position(here));
 //                        MyMapFragment.map.addCircle(new CircleOptions().center(here).radius(1000).strokeColor(Color.RED).fillColor(Color.RED));
                     }
-//                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show();
-
-
+//                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     System.out.println(response.errorBody());
@@ -229,18 +221,19 @@ public class UserController {
         });
     }
 
+
     public void createHelpRequestNotification(){
-// Sets an ID for the notification, so it can be updated.
+
         int notifyID = 1;
         String CHANNEL_ID = "my_channel_01";// The id of the channel.
         CharSequence name = "ANDROID_SHIT";// The user-visible name of the channel.
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-// Create a notification and set the notification channel.
+
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
                 .setContentTitle("Help request!")
                 .setContentText(fromUser.getEmail() + " request help!")
-                .setSmallIcon(R.drawable.ic_call_end_black_24px)
+                .setSmallIcon(R.drawable.ic_phone_black_24px)
                 .setChannelId(CHANNEL_ID);
         Intent resultIntent = new Intent(context, HomeActivity.class).putExtra("fromNotification", true);;
 
@@ -261,47 +254,82 @@ public class UserController {
         mNotificationManager.notify(notifyID , notification.build());
     }
 
+    public void displayRoutes(HelpFragment context){
+        LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
+//            TODO create a helper method to automatically parse and return LatLng
+        RawLocation rawLocation = fromUser.getLocation();
+        LatLng usi = new LatLng(rawLocation.getLatitude(),rawLocation.getLongitude());
+
+        Routing routing = new Routing.Builder()
+                .travelMode(Routing.TravelMode.DRIVING)
+                .withListener(context)
+                .waypoints(here, usi)
+                .key(GoogleAPIService.API_KEY)
+                .build();
+        routing.execute();
+
+        HelpFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
+        HelpFragment.map.addMarker(new MarkerOptions().position(here));
+    }
+
+    public void willHelp(User who){
+        Gson gson = new Gson();
+//                            TODO wrap it in a user controller method!
+        SocketClient.socket.emit("help_accepted",gson.toJson(who));
+
+        ((HomeActivity) context).switchToFragment(((HomeActivity) context).helpFragment, true);
+
+
+    }
+
+    public void bindOnSocketsEvent(){
+        SocketClient.socket.on("help_request", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                JSONObject obj = (JSONObject)args[0];
+                System.out.println("help_request");
+                try {
+
+                    final JSONObject from = (JSONObject) obj.get("from");
+                    Gson gson = new Gson();
+
+                    User userToHelp = gson.fromJson(from.toString(), User.class);
+
+                    if(fromUser != null && userToHelp.getEmail().equals(fromUser.getEmail())) return;
+                    if(fromUser == null) fromUser = userToHelp;
+
+                    isHelping = true;
+
+                    createHelpRequestNotification();
+
+                    Handler toastHandler = new Handler(Looper.getMainLooper());
+//                        TODO add a flag to avoid spam
+                    toastHandler.post(new Runnable() {
+                        public void run() {
+                            FragmentActivity activity = (FragmentActivity) context;
+                            FragmentManager manager = activity.getSupportFragmentManager();
+
+                            UserAskForHelpDialog newFragment = new UserAskForHelpDialog();
+
+                            newFragment.show(manager, "help");
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    System.out.println(e.getCause());
+                }
+
+            }
+        });
+    }
+
     public void askForHelp(){
 
         isCalling = !isCalling;
 
         if(isCalling) {
             SocketClient.socket.emit("help","HELP");
-
-            SocketClient.socket.on("help_request", new Emitter.Listener() {
-
-                @Override
-                public void call(Object... args) {
-                    JSONObject obj = (JSONObject)args[0];
-
-                    try {
-
-                        final JSONObject from = (JSONObject) obj.get("from");
-                        Gson gson = new Gson();
-
-                        fromUser = gson.fromJson(from.toString(), User.class);
-
-                        createHelpRequestNotification();
-
-                        Handler toastHandler = new Handler(Looper.getMainLooper());
-
-                        toastHandler.post(new Runnable() {
-                            public void run() {
-                                    FragmentActivity activity = (FragmentActivity) context;
-                                    FragmentManager manager = activity.getSupportFragmentManager();
-
-                                    UserAskForHelpDialog newFragment = new UserAskForHelpDialog();
-
-                                    newFragment.show(manager, "help");
-                            }
-                        });
-
-                    } catch (JSONException e) {
-                        System.out.println(e.getCause());
-                    }
-
-                }
-            });
 
         } else {
             System.out.println("ALL GOOD");

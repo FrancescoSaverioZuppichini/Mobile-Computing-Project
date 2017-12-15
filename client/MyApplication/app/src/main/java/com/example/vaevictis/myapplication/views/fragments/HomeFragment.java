@@ -26,15 +26,13 @@ public class HomeFragment extends android.app.Fragment {
     YoYo.YoYoString animation;
     UserController userController;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_home, container, false);
 
         userController = new UserController(myView.getContext());
-//        userController.getMe();
-
+        userController.bindOnSocketsEvent();
         locationController = new LocationController(myView.getContext());
         locationController.initialise();
 

@@ -24,13 +24,14 @@ module.exports = function(server) {
             var user = await User.findById(socket.user_id)
             var neighbors = await user.getNeighbors()
             // CHECK: should I remove myself?
-            // neighbors.shift()
+            neighbors.shift()
             neighbors.forEach( neighbor => {
                 const socket = users[neighbor._id]
                 const isOnline = socket != null
                 if(isOnline){
                     // CHECK: we should create a new obj
                     user.dist = neighbor.dist
+                    console.log(neighbor)
                     socket.emit("help_request", { from: user } )
                 }   else{
                     // CHECK put a notification?

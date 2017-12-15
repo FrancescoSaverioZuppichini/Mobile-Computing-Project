@@ -33,7 +33,8 @@ public class LocationController implements LocationListener{
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             this.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-
+        } else{
+//            TODO add callback
             ActivityCompat.requestPermissions((Activity) context,new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, 1);
         }
     }

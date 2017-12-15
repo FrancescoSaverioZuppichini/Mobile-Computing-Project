@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.controllers.UserController;
 import com.example.vaevictis.myapplication.views.dialogs.UserAskForHelpDialog;
+import com.example.vaevictis.myapplication.views.fragments.HelpFragment;
 import com.example.vaevictis.myapplication.views.fragments.HomeFragment;
 import com.example.vaevictis.myapplication.views.fragments.MyMapFragment;
 import com.example.vaevictis.myapplication.views.fragments.SettingFragment;
@@ -37,14 +40,11 @@ public class HomeActivity extends FragmentActivity {
     HomeFragment homeFragment = new HomeFragment();
     SettingFragment settingFragment = new SettingFragment();
     MyMapFragment myMapFragment = new MyMapFragment();
+    public HelpFragment helpFragment = new HelpFragment();
 
     Drawer myDrawer;
 
     UserController userController;
-
-    public MyMapFragment getMyMapFragment() {
-        return myMapFragment;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +67,7 @@ public class HomeActivity extends FragmentActivity {
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
 
         if (getIntent().getBooleanExtra("fromNotification", false)) {
@@ -83,6 +82,25 @@ public class HomeActivity extends FragmentActivity {
             newFragment.show(getSupportFragmentManager(), "help");
         }
 
+    }
+
+    public void switchToFragment(Fragment fragment, boolean addToHistory){
+        removeAll();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.fragment_container, fragment);
+
+        if(addToHistory) transaction.addToBackStack(fragment.getClass().getName());
+
+        transaction.commit();
+    }
+
+    private void removeAll(){
+        for(Fragment f : getSupportFragmentManager().getFragments()) {
+            if(f != null) {
+                getSupportFragmentManager().beginTransaction().remove(f).commit();
+            }
+        }
     }
 
     private void addDrawer(){
@@ -151,6 +169,8 @@ public class HomeActivity extends FragmentActivity {
                         System.out.println(position);
                         switch (position){
                             case(2):
+
+                                removeAll();
                                 System.out.println("MAP");
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, myMapFragment)
@@ -158,16 +178,21 @@ public class HomeActivity extends FragmentActivity {
                                 break;
                             case(4):
                                 System.out.println("SETTINGS");
+                                removeAll();
+
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, settingFragment)
                                         .commit();
-
                                 break;
                             case(1):
-
-                                getFragmentManager().beginTransaction()
-                                        .replace(R.id.fragment_container, homeFragment)
-                                        .commit();
+                                removeAll();
+                                if(UserController.isHelping) {
+                                    switchToFragment(helpFragment, true);
+                                } else {
+                                    getFragmentManager().beginTransaction()
+                                            .replace(R.id.fragment_container, homeFragment)
+                                            .commit();
+                                }
                                 System.out.println("HOME");
                                 break;
                             case(5):
