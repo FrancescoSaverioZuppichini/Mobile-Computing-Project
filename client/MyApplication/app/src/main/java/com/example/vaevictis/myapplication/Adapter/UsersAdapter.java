@@ -54,4 +54,9 @@ public class UsersAdapter extends ArrayAdapter<User> {
         // Return the completed view to render on screen
         return convertView;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
 }

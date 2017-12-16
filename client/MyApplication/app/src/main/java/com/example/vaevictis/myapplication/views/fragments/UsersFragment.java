@@ -1,5 +1,6 @@
 package com.example.vaevictis.myapplication.views.fragments;
 
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,9 +15,9 @@ import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.controllers.UserController;
 
 
-public class UsersFragment extends android.app.ListFragment implements AdapterView.OnItemClickListener {
+public class UsersFragment extends ListFragment implements AdapterView.OnItemClickListener {
     View myView;
-    UsersAdapter adapter;
+    public static UsersAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

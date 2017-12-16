@@ -26,8 +26,10 @@ import com.example.vaevictis.myapplication.models.Token;
 import com.example.vaevictis.myapplication.models.User;
 import com.example.vaevictis.myapplication.views.activities.HomeActivity;
 import com.example.vaevictis.myapplication.views.dialogs.UserAskForHelpDialog;
+import com.example.vaevictis.myapplication.views.dialogs.UserWillStopHelpDialog;
 import com.example.vaevictis.myapplication.views.fragments.HelpFragment;
 import com.example.vaevictis.myapplication.views.fragments.MyMapFragment;
+import com.example.vaevictis.myapplication.views.fragments.UsersFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -274,12 +276,45 @@ public class UserController {
 
     public void willHelp(User who){
         Gson gson = new Gson();
-//                            TODO wrap it in a user controller method!
+
         SocketClient.socket.emit("help_accepted",gson.toJson(who));
 
-        ((HomeActivity) context).switchToFragment(((HomeActivity) context).helpFragment, true);
+        ((HomeActivity) context).switchToFragment(((HomeActivity) context).helpFragment, false);
 
+    }
 
+    public void willStopHelp(){
+        Handler dialogHandler = new Handler(Looper.getMainLooper());
+
+        dialogHandler.post(new Runnable() {
+            public void run() {
+                FragmentActivity activity = (FragmentActivity) context;
+                FragmentManager manager = activity.getSupportFragmentManager();
+
+                UserWillStopHelpDialog newFragment = new UserWillStopHelpDialog();
+
+                newFragment.show(manager, "will_stop_help");
+            }
+        });
+    }
+
+    public void stopHelp(){
+        Gson gson = new Gson();
+        SocketClient.socket.emit("help_stop_user",gson.toJson(fromUser));
+        fromUser = null;
+
+        ((HomeActivity) context).removeAll();
+        ((HomeActivity) context).getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container,  ((HomeActivity) context).homeFragment)
+                .commit();
+    }
+
+    public void removeUserThatWasHelpingYou(User userThatStopHelpYou){
+        for(User user: usersThatHelps) {
+            if(user.getEmail().equals(userThatStopHelpYou.getEmail())) {
+                usersThatHelps.remove(user);
+            }
+        }
     }
 
     public void bindOnSocketsEvent(){
@@ -315,6 +350,52 @@ public class UserController {
                             newFragment.show(manager, "help");
                         }
                     });
+
+                } catch (JSONException e) {
+                    System.out.println(e.getCause());
+                }
+
+            }
+        });
+
+        SocketClient.socket.on("help_stop_user_success", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                JSONObject obj = (JSONObject)args[0];
+                System.out.println("help_stop_user_success");
+                try {
+
+                    final JSONObject from = (JSONObject) obj.get("from");
+                    Gson gson = new Gson();
+
+                    User userThatStopHelpYou = gson.fromJson(from.toString(), User.class);
+
+                    System.out.println("STOPPED HELP YOU:" + userThatStopHelpYou.getEmail());
+
+                    if(!Utils.checkIfUserIsAlreadyHelping(userThatStopHelpYou, usersThatHelps)) return;
+
+                    removeUserThatWasHelpingYou(userThatStopHelpYou);
+
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(UsersFragment.adapter != null){
+//                                TODO check it
+                                UsersFragment.adapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+
+                    Handler counterFabHandler = new Handler(Looper.getMainLooper());
+                    counterFabHandler.post(new Runnable() {
+                        public void run() {
+                            CounterFab counterFab = ((Activity) context).findViewById(R.id.people);
+                            if(counterFab != null){ counterFab.decrease(); }
+                        }
+                    });
+
+
 
                 } catch (JSONException e) {
                     System.out.println(e.getCause());

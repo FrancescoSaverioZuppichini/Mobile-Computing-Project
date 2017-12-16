@@ -1,5 +1,7 @@
 package com.example.vaevictis.myapplication.models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by vaevictis on 15.11.17.
  */
@@ -80,6 +82,11 @@ public class User {
     public void setLocation(double latitude, double longitude) {
         this.location = new RawLocation(latitude, longitude);
     }
+
+    public LatLng getLatLng() {
+        return new LatLng(location.getLatitude(), location.getLongitude());
+    }
+
 
 }
 

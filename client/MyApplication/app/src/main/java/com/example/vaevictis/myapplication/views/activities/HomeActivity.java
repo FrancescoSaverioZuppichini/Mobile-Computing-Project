@@ -37,7 +37,7 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends FragmentActivity {
-    HomeFragment homeFragment = new HomeFragment();
+    public HomeFragment homeFragment = new HomeFragment();
     SettingFragment settingFragment = new SettingFragment();
     MyMapFragment myMapFragment = new MyMapFragment();
     public HelpFragment helpFragment = new HelpFragment();
@@ -95,7 +95,7 @@ public class HomeActivity extends FragmentActivity {
         transaction.commit();
     }
 
-    private void removeAll(){
+    public void removeAll(){
         for(Fragment f : getSupportFragmentManager().getFragments()) {
             if(f != null) {
                 getSupportFragmentManager().beginTransaction().remove(f).commit();

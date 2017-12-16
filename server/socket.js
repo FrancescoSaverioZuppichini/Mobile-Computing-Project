@@ -31,7 +31,6 @@ module.exports = function(server) {
                 if(isOnline){
                     // CHECK: we should create a new obj
                     user.dist = neighbor.dist
-                    console.log(neighbor)
                     socket.emit("help_request", { from: user } )
                 }   else{
                     // CHECK put a notification?
@@ -65,9 +64,21 @@ module.exports = function(server) {
                     socket.emit("help_stop", { from: user } )
                 } 
             })
-
-
         } )
+
+        socket.on("help_stop_user", async (who) => {
+            who = JSON.parse(who)
+            console.log(who.email)
+            const toSocket = users[who._id]
+            const isOnline = toSocket != null
+
+            var user = await User.findById(socket.user_id)
+            
+            if(isOnline){
+                console.log(user, "ACCPTED")
+                toSocket.emit("help_stop_user_success", { from: user })
+            }
+        })
 
         socket.on('disconnect', function(){
             console.log('user disconnected');

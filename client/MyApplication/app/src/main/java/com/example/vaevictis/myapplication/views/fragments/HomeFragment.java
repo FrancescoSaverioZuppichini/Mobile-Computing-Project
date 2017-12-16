@@ -1,9 +1,10 @@
 package com.example.vaevictis.myapplication.views.fragments;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.example.vaevictis.myapplication.controllers.LocationController;
 import com.example.vaevictis.myapplication.controllers.UserController;
 
 
-public class HomeFragment extends android.app.Fragment {
+public class HomeFragment extends Fragment {
     View myView;
 
     FloatingActionButton askForHelpButton;
