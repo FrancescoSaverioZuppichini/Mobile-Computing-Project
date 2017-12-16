@@ -260,6 +260,7 @@ public class UserController {
         LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
 //            TODO create a helper method to automatically parse and return LatLng
         RawLocation rawLocation = fromUser.getLocation();
+        if(rawLocation == null) return;
         LatLng usi = new LatLng(rawLocation.getLatitude(),rawLocation.getLongitude());
 
         Routing routing = new Routing.Builder()
@@ -279,7 +280,7 @@ public class UserController {
 
         SocketClient.socket.emit("help_accepted",gson.toJson(who));
 
-        ((HomeActivity) context).switchToFragment(((HomeActivity) context).helpFragment, false);
+        ((HomeActivity) context).switchToFragment(new HelpFragment(), false);
 
     }
 
@@ -394,9 +395,6 @@ public class UserController {
                             if(counterFab != null){ counterFab.decrease(); }
                         }
                     });
-
-
-
                 } catch (JSONException e) {
                     System.out.println(e.getCause());
                 }

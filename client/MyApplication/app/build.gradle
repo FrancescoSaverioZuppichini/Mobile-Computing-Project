@@ -34,6 +34,7 @@ dependencies {
     compile 'com.pranavpandey.android:dynamic-toasts:0.6.0'
     compile 'com.pranavpandey.android:dynamic-utils:0.6.0'
     compile 'com.google.android.gms:play-services-maps:11.0.0'
+    compile 'com.koushikdutta.ion:ion:2.+'
     compile 'com.google.android.gms:play-services-location:11.0.0'
     compile("com.github.hotchemi:permissionsdispatcher:3.0.1") {
         exclude module: "support-v13"
