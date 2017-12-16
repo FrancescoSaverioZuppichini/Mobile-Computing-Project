@@ -58,15 +58,32 @@ router.post('/', async(req, res, next) => {
     
     var newUser = await User(req.body).save()
     
-    const staticPath = `images/${newUser._id}.png`
-    const savePath = path.resolve(__dirname,`../public/${staticPath}`)
-
+    var staticPath = `images/${newUser._id}.png`
+    var savePath = path.resolve(__dirname,`../public/${staticPath}`)
+    
     await save(savePath, { text : newUser.email, bgColor: "#BDBDBD" }, function(err){
       if(err) return console.log(err);
               return console.log('avatar.png saved at path ' + savePath);
     });
 
     newUser = await User.findByIdAndUpdate(newUser._id, { $set: { avatar: staticPath } }, { new: true})
+
+    staticPath = `images/${newUser._id}-green.png`
+    savePath = path.resolve(__dirname,`../public/${staticPath}`)
+
+    await save(savePath, { text : newUser.email, bgColor: "#4CAF50" }, function(err){
+      if(err) return console.log(err);
+              return console.log('avatar.png saved at path ' + savePath);
+    });
+
+    staticPath = `images/${newUser._id}-red.png`
+    savePath = path.resolve(__dirname,`../public/${staticPath}`)
+
+    await save(savePath, { text : newUser.email, bgColor: "#F44336" }, function(err){
+      if(err) return console.log(err);
+              return console.log('avatar.png saved at path ' + savePath);
+    });
+
     
     res.status(201).json(newUser)
 

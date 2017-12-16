@@ -31,6 +31,8 @@ module.exports = function(server) {
                 if(isOnline){
                     // CHECK: we should create a new obj
                     user.dist = neighbor.dist
+                    console.log(neighbor.email)
+
                     socket.emit("help_request", { from: user } )
                 }   else{
                     // CHECK put a notification?
@@ -61,6 +63,7 @@ module.exports = function(server) {
                 const socket = users[neighbor._id]
                 const isOnline = socket != null
                 if(isOnline){
+                    console.log(neighbor.email)
                     socket.emit("help_stop", { from: user } )
                 } 
             })
