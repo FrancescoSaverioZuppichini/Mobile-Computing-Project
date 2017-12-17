@@ -537,6 +537,25 @@ public class UserController {
                 }
             }
         });
+
+        SocketClient.socket.on("help_end_success", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                if(isCalling) return;
+                JSONObject obj = (JSONObject)args[0];
+                System.out.println("help_end_success");
+                stopHelp();
+                Handler toastHandler = new Handler(Looper.getMainLooper());
+//                        TODO add a flag to avoid spam
+                toastHandler.post(new Runnable() {
+                    public void run() {
+                        DynamicToast.makeWarning(context, "The users does not require help anymore").show();
+
+                    }
+                });
+            }
+        });
     }
 
     public void endCall(){
@@ -547,9 +566,9 @@ public class UserController {
                 if(UsersFragment.adapter != null){
 //                                TODO check it
                     UsersFragment.adapter.notifyDataSetChanged();
-                    CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
-                    counterFab.setCount(0);
                 }
+                CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
+                counterFab.setCount(0);
             }
         });
 

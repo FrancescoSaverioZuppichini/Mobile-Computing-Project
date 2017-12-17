@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         askForHelpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 if(!UserController.isCalling) {
                         userController.call();
                         onAskForHelp();

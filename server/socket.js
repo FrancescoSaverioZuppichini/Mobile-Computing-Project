@@ -42,6 +42,25 @@ module.exports = function(server) {
             socket.neighbors = neighbors
         })
 
+        socket.on("help_end", async (from) => {
+            var user = await User.findById(socket.user_id)
+            console.log(`user ${user.email} does not required helpm anymore!`)
+
+            socket.neighbors.forEach( neighbor => {
+                const socket = users[neighbor._id]
+                const isOnline = socket != null
+                if(isOnline){
+                    // CHECK: we should create a new obj
+                    user.dist = neighbor.dist
+                    console.log(`Broadcast to ${neighbor.email}`)
+                    
+                    socket.emit("help_end_success", { from: user } )
+                }   else{
+                    // CHECK put a notification?
+                }
+            })
+        })
+
         socket.on("help_accepted", async (to) => {
             to = JSON.parse(to)
           
