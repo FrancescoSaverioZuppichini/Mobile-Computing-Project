@@ -1,10 +1,12 @@
 package com.example.vaevictis.myapplication.views.fragments;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.controllers.LocationController;
 import com.example.vaevictis.myapplication.controllers.UserController;
+import com.example.vaevictis.myapplication.views.dialogs.UserWillStopCallDialog;
 
 
 public class HomeFragment extends Fragment {
@@ -44,31 +47,44 @@ public class HomeFragment extends Fragment {
         return myView;
     }
 
+    public void onAskForHelp(){
+
+        int icon = userController.isCalling() ? R.drawable.ic_call_end_black_24px : R.drawable.ic_phone_black_24px;
+        int color = userController.isCalling() ? R.color.md_red_500 : R.color.md_green_500 ;
+
+        if(!userController.isCalling()){
+            System.out.println("STOP");
+            animation.stop(false);
+        }
+        else {
+            animation = YoYo.with(Techniques.Tada)
+                    .duration(700)
+                    .repeat(YoYo.INFINITE)
+                    .playOn(askForHelpButton);
+        }
+
+        askForHelpButton.setImageResource(icon);
+        askForHelpButton.setBackgroundTintList(getResources().getColorStateList(color));
+    }
+
     private void addListenerOnButton() {
         askForHelpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                userController.askForHelp();
-
-                int icon = userController.isCalling() ? R.drawable.ic_call_end_black_24px : R.drawable.ic_phone_black_24px;
-                int color = userController.isCalling() ? R.color.md_red_500 : R.color.md_green_500 ;
-
-                if(!userController.isCalling()){
-                    System.out.println("STOP");
-                    animation.stop(false);
-                }
-                else {
-                    animation = YoYo.with(Techniques.Tada)
-                            .duration(700)
-                            .repeat(YoYo.INFINITE)
-                            .playOn(askForHelpButton);
+                
+                if(!UserController.isCalling) {
+                        userController.call();
+                        onAskForHelp();
+                        UserController.isCalling = true;
+                } else {
+                    UserWillStopCallDialog newFragment = new UserWillStopCallDialog();
+                    newFragment.setHomeFragment(HomeFragment.this);
+                    FragmentActivity activity = (FragmentActivity) getContext();
+                    FragmentManager manager = activity.getSupportFragmentManager();
+                    newFragment.show(manager, "will_end_call");
                 }
 
-                askForHelpButton.setImageResource(icon);
-                askForHelpButton.setBackgroundTintList(getResources().getColorStateList(color));
-
-            }
+                }
         });
 
         peopleCounterFab.setOnClickListener(new View.OnClickListener() {

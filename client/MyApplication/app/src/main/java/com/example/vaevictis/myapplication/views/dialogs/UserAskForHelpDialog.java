@@ -32,7 +32,9 @@ public class UserAskForHelpDialog extends DialogFragment {
                     })
                     .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog -> do nothing
+                            // User cancelled the dialog -> do
+                            UserController.fromUser = null;
+                            UserController.isHelping = false;
                         }
                     });
 

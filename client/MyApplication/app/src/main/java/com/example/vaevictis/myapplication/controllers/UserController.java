@@ -26,6 +26,7 @@ import com.example.vaevictis.myapplication.models.Token;
 import com.example.vaevictis.myapplication.models.User;
 import com.example.vaevictis.myapplication.views.activities.HomeActivity;
 import com.example.vaevictis.myapplication.views.dialogs.UserAskForHelpDialog;
+import com.example.vaevictis.myapplication.views.dialogs.UserWillStopCallDialog;
 import com.example.vaevictis.myapplication.views.dialogs.UserWillStopHelpDialog;
 import com.example.vaevictis.myapplication.views.fragments.HelpFragment;
 import com.example.vaevictis.myapplication.views.fragments.UsersFragment;
@@ -64,7 +65,7 @@ public class UserController {
     public static Marker fromMarker;
     public static boolean hasAlreadyOpenMap = false;
     private Context context;
-    private boolean isCalling = false;
+    public static boolean isCalling = false;
 
     public UserController(Context context) {
         this.context = context;
@@ -224,7 +225,7 @@ public class UserController {
                     updateMap();
 
                     Gson gson = new Gson();
-                    SocketClient.socket.emit("update",gson.toJson(user));
+                    SocketClient.socket.emit("update", gson.toJson(user));
 //                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show()
                 }
                 else {
@@ -502,30 +503,6 @@ public class UserController {
 
             }
         });
-    }
-
-    public void askForHelp(){
-
-        isCalling = !isCalling;
-
-        if(isCalling) {
-            SocketClient.socket.emit("help","HELP");
-
-        } else {
-            usersThatHelps = new ArrayList<>();
-            ((Activity) context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(UsersFragment.adapter != null){
-//                                TODO check it
-                        UsersFragment.adapter.notifyDataSetChanged();
-                        CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
-                        counterFab.setCount(0);
-                    }
-                }
-            });
-            System.out.println("ALL GOOD");
-        }
 
         SocketClient.socket.on("help_accepted_success", new Emitter.Listener() {
             @Override
@@ -560,6 +537,57 @@ public class UserController {
                 }
             }
         });
+    }
+
+    public void endCall(){
+        usersThatHelps = new ArrayList<>();
+        ((Activity) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(UsersFragment.adapter != null){
+//                                TODO check it
+                    UsersFragment.adapter.notifyDataSetChanged();
+                    CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
+                    counterFab.setCount(0);
+                }
+            }
+        });
+
+        Gson gson = new Gson();
+        isCalling = false;
+
+        SocketClient.socket.emit("help_end", gson.toJson(user));
+    }
+
+    public void willEndCall(){
+        Handler dialogHandler = new Handler(Looper.getMainLooper());
+
+        dialogHandler.post(new Runnable() {
+            public void run() {
+                FragmentActivity activity = (FragmentActivity) context;
+                FragmentManager manager = activity.getSupportFragmentManager();
+
+                UserWillStopCallDialog newFragment = new UserWillStopCallDialog();
+
+                newFragment.show(manager, "will_end_call");
+            }
+        });
+    }
+
+    public void call(){
+        SocketClient.socket.emit("help","HELP");
+        isCalling = true;
+    }
+
+    public void askForHelp(){
+
+
+        if(!isCalling) {
+            SocketClient.socket.emit("help","HELP");
+            isCalling = true;
+        } else {
+            willEndCall();
+        }
     }
 
     public boolean isCalling(){
