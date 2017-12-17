@@ -42,9 +42,7 @@ router.put('/', async(req, res, next) => {
   res.json({
     token: jwt.sign({
       data: req.user
-    }, process.env.TOKEN_SECRET, {
-      expiresIn: '12h'
-    })
+    }, process.env.TOKEN_SECRET)
   })
 })
 // normal username/email registration

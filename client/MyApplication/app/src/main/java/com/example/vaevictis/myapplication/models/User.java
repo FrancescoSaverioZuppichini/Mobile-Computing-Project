@@ -1,6 +1,7 @@
 package com.example.vaevictis.myapplication.models;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 /**
  * Created by vaevictis on 15.11.17.
@@ -13,6 +14,7 @@ public class User {
     private String _id;
     private Token token;
     private double dist;
+    public Marker marker = null;
     private String avatar;
     private RawLocation location;
 
@@ -24,6 +26,14 @@ public class User {
         this.email = email;
         this.password = password;
 
+    }
+
+    public void setMarker(Marker marker){
+        this.marker = marker;
+    }
+
+    public Marker getMarker(){
+        return marker;
     }
 
     public String getEmail() {

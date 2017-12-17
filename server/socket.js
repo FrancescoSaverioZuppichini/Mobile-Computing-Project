@@ -32,7 +32,7 @@ module.exports = function(server) {
                     // CHECK: we should create a new obj
                     user.dist = neighbor.dist
                     console.log(neighbor.email)
-
+                    
                     socket.emit("help_request", { from: user } )
                 }   else{
                     // CHECK put a notification?
@@ -50,23 +50,48 @@ module.exports = function(server) {
 
             var user = await User.findById(socket.user_id)
             
+            var toUser = await User.findById(to._id)
+
             if(isOnline){
-                console.log(user, "ACCPTED")
+                console.log(user, "ACCEPTED")
                 toSocket.emit("help_accepted_success", { from: user })
             }
+
+            socket.neighbors = [toUser]
+        })
+
+        socket.on("update", async(user) => {
+            var user = await User.findById(socket.user_id)
+            console.log(`${user.email} just udpate something!`)
+
+            socket.neighbors.forEach( neighbor => {
+                const socket = users[neighbor._id]
+                const isOnline = socket != null
+                if(isOnline){
+                    // CHECK: we should create a new obj
+                    user.dist = neighbor.dist
+                    console.log(neighbor.email)
+                    
+                    socket.emit("update_user", { from: user } )
+                }   else{
+                    // CHECK put a notification?
+                }
+            })
+            
         })
 
         socket.on("help_stop", async(data) => {
             var user = await User.findById(socket.user_id)
 
-            neighbors.forEach( neighbor => {
+            socket.neighbors.forEach( neighbor => {
                 const socket = users[neighbor._id]
                 const isOnline = socket != null
                 if(isOnline){
-                    console.log(neighbor.email)
                     socket.emit("help_stop", { from: user } )
                 } 
             })
+
+            socket.neighbors = []
         } )
 
         socket.on("help_stop_user", async (who) => {
@@ -76,9 +101,10 @@ module.exports = function(server) {
             const isOnline = toSocket != null
 
             var user = await User.findById(socket.user_id)
-            
+
+            toSocket.neighbors = toSocket.neighbors.filter(neighbor => neighbor.email != user.email)
+
             if(isOnline){
-                console.log(user, "ACCPTED")
                 toSocket.emit("help_stop_user_success", { from: user })
             }
         })

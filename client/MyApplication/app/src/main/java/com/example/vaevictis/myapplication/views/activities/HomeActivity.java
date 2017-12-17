@@ -169,7 +169,8 @@ public class HomeActivity extends FragmentActivity {
                         System.out.println(position);
                         switch (position){
                             case(2):
-
+                                UserController.currentMap = null;
+                                UserController.hasAlreadyOpenMap = false;
                                 removeAll();
                                 System.out.println("MAP");
                                 getSupportFragmentManager().beginTransaction()
@@ -179,6 +180,7 @@ public class HomeActivity extends FragmentActivity {
                             case(4):
                                 System.out.println("SETTINGS");
                                 removeAll();
+                                UserController.currentMap = null;
 
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, settingFragment)
@@ -186,6 +188,7 @@ public class HomeActivity extends FragmentActivity {
                                 break;
                             case(1):
                                 removeAll();
+                                UserController.currentMap = null;
                                 if(UserController.isHelping) {
                                     switchToFragment(helpFragment, true);
                                 } else {

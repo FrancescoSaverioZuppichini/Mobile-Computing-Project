@@ -28,10 +28,12 @@ import com.example.vaevictis.myapplication.views.activities.HomeActivity;
 import com.example.vaevictis.myapplication.views.dialogs.UserAskForHelpDialog;
 import com.example.vaevictis.myapplication.views.dialogs.UserWillStopHelpDialog;
 import com.example.vaevictis.myapplication.views.fragments.HelpFragment;
-import com.example.vaevictis.myapplication.views.fragments.MyMapFragment;
 import com.example.vaevictis.myapplication.views.fragments.UsersFragment;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
@@ -57,7 +59,10 @@ public class UserController {
     public static User user = new User();
     public static User fromUser;
     public static ArrayList<User> usersThatHelps = new ArrayList<>();
-
+    public static GoogleMap currentMap;
+    public static Marker myMarker;
+    public static Marker fromMarker;
+    public static boolean hasAlreadyOpenMap = false;
     private Context context;
     private boolean isCalling = false;
 
@@ -147,6 +152,54 @@ public class UserController {
         user = new User();
     }
 
+    public void updateMap(){
+        if(currentMap != null) {
+
+            System.out.println("UpdateMap");
+
+            if(!hasAlreadyOpenMap) {
+                CameraUpdate center = CameraUpdateFactory.newLatLng(user.getLatLng());
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(16);
+
+                currentMap.moveCamera(center);
+                currentMap.animateCamera(zoom);
+
+            } else {
+                myMarker.remove();
+            }
+
+            hasAlreadyOpenMap = true;
+
+//          Little hack -> TODO: properly change the map reference and update a flag to nofity we have a new map
+            myMarker = currentMap.addMarker(new MarkerOptions().position(user.getLatLng()).title("You"));
+
+            myMarker.showInfoWindow();
+
+//            user.setMarker(myMarker);
+//            System.out.println("updated user marker");
+
+            if(fromUser != null){
+                System.out.println(fromUser.marker);
+                    if(HelpFragment.toHelpMaker == null){
+                        HelpFragment.getAndDrawCustomMaker(fromUser, "-red.png", context);
+
+                    } else {
+                        HelpFragment.toHelpMaker.setPosition(fromUser.getLatLng());
+                    }
+
+            }
+//
+//            for(User userThatHelps: usersThatHelps){
+//
+// userThatHelps.marker = currentMap.addMarker(new MarkerOptions().position(userThatHelps.getLatLng()));
+//                HelpFragment.getAndDrawCustomMaker(fromUser, ".png", context);
+//
+//            }
+
+
+        }
+    }
+
     public void updateUser(){
         if(!isLoggedIn) {
             return;
@@ -165,17 +218,13 @@ public class UserController {
                     updatedUser.setEmailAndPassword(user.getEmail(), user.getPassword());
 
                     user = updatedUser;
-                    System.out.println(user.getEmail() + ' '  + user.getPassword());
 
                     System.out.println("POSITION UPDATED");
 
-                    if(MyMapFragment.map != null) {
-                        LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
+                    updateMap();
 
-                        MyMapFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
-                        MyMapFragment.map.addMarker(new MarkerOptions().position(here));
-//                        MyMapFragment.map.addCircle(new CircleOptions().center(here).radius(1000).strokeColor(Color.RED).fillColor(Color.RED));
-                    }
+                    Gson gson = new Gson();
+                    SocketClient.socket.emit("update",gson.toJson(user));
 //                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show()
                 }
                 else {
@@ -211,6 +260,14 @@ public class UserController {
                     context.startActivity(goToHome);
 
                 } else {
+
+                    switch (response.code()){
+                        case 401:
+//                            token is old -> just remove it
+                            user.setToken(null);
+
+                    }
+                    System.out.println(response.code());
                     System.out.println(response.errorBody());
                     System.out.println(response.body());
                 }
@@ -271,8 +328,6 @@ public class UserController {
                 .build();
         routing.execute();
 
-        HelpFragment.map.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
-        HelpFragment.map.addMarker(new MarkerOptions().position(here));
     }
 
     public void willHelp(User who){
@@ -301,13 +356,16 @@ public class UserController {
 
     public void stopHelp(){
         Gson gson = new Gson();
-        SocketClient.socket.emit("help_stop_user",gson.toJson(fromUser));
-        fromUser = null;
-
         ((HomeActivity) context).removeAll();
         ((HomeActivity) context).getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container,  ((HomeActivity) context).homeFragment)
                 .commit();
+        SocketClient.socket.emit("help_stop_user", gson.toJson(fromUser));
+        fromUser = null;
+        currentMap = null;
+        hasAlreadyOpenMap = false;
+        HelpFragment.toHelpMaker = null;
+
     }
 
     public void removeUserThatWasHelpingYou(User userThatStopHelpYou){
@@ -323,6 +381,7 @@ public class UserController {
 
             @Override
             public void call(Object... args) {
+                if(isCalling) return;
                 JSONObject obj = (JSONObject)args[0];
                 System.out.println("help_request");
                 try {
@@ -401,6 +460,48 @@ public class UserController {
 
             }
         });
+
+        SocketClient.socket.on("update_user", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                JSONObject obj = (JSONObject)args[0];
+                System.out.println("update_user");
+                try {
+
+                    final JSONObject from = (JSONObject) obj.get("from");
+                    Gson gson = new Gson();
+
+                    User updatedUser = gson.fromJson(from.toString(), User.class);
+                    if(fromUser != null){
+                        if(fromUser.getEmail().equals(updatedUser.getEmail())){
+                            System.out.println("DIOCANE FROM USER");
+                            updatedUser.marker = fromUser.marker;
+                            fromUser = updatedUser;
+                        }
+                    }
+                    for(User user: usersThatHelps){
+                        if(user.getEmail().equals(updatedUser.getEmail())){
+                            System.out.println("DIOCANE USER THAT HELPS");
+                            user = updatedUser;
+                        }
+                    }
+
+
+                    Handler toastHandler = new Handler(Looper.getMainLooper());
+
+                    toastHandler.post(new Runnable() {
+                        public void run() {
+                            updateMap();
+                        }
+                        });
+
+                } catch (JSONException e) {
+                    System.out.println(e.getCause());
+                }
+
+            }
+        });
     }
 
     public void askForHelp(){
@@ -411,6 +512,18 @@ public class UserController {
             SocketClient.socket.emit("help","HELP");
 
         } else {
+            usersThatHelps = new ArrayList<>();
+            ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(UsersFragment.adapter != null){
+//                                TODO check it
+                        UsersFragment.adapter.notifyDataSetChanged();
+                        CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
+                        counterFab.setCount(0);
+                    }
+                }
+            });
             System.out.println("ALL GOOD");
         }
 

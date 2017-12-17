@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vaevictis.myapplication.R;
+import com.example.vaevictis.myapplication.controllers.UserController;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -34,6 +35,14 @@ public class MyMapFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
         map.clear();
         System.out.println("MAP READY");
+        UserController.currentMap = map;
+        (getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new UserController(getContext()).updateMap();            }
+        });
+//        new UserController(getContext()).updateMap();
+
 //        getActivity().getSupportFragmentManager().beginTransaction()
 //                .remove(mapFrag)
 //                .commit();
