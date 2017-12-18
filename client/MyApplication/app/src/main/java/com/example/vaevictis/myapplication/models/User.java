@@ -12,6 +12,7 @@ public class User {
     private String password;
     private String role = "USER";
     private String _id;
+    private Preferences preferences;
     private Token token;
     private double dist;
     public Marker marker = null;
@@ -26,6 +27,14 @@ public class User {
         this.email = email;
         this.password = password;
 
+    }
+
+    public Preferences getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(Preferences preferences) {
+        this.preferences = preferences;
     }
 
     public void setMarker(Marker marker){
@@ -96,6 +105,8 @@ public class User {
     public LatLng getLatLng() {
         return new LatLng(location.getLatitude(), location.getLongitude());
     }
+
+
 
 
 }
