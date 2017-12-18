@@ -550,7 +550,7 @@ public class UserController {
 //                        TODO add a flag to avoid spam
                 toastHandler.post(new Runnable() {
                     public void run() {
-                        DynamicToast.makeWarning(context, "The users does not require help anymore").show();
+                        DynamicToast.makeWarning(context, "The users does not require help anymore", Toast.LENGTH_LONG).show();
 
                     }
                 });
