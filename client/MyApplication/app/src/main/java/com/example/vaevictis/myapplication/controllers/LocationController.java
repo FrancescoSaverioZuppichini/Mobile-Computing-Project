@@ -46,8 +46,9 @@ public class LocationController implements LocationListener{
         UserController.user.setLocation(location.getLatitude(), location.getLongitude());
 
         UserController userController = new UserController(this.context);
-
-        userController.updateUser();
+        if(UserController.user.getToken() != null) {
+            userController.updateUser();
+        }
     }
 
     @Override
