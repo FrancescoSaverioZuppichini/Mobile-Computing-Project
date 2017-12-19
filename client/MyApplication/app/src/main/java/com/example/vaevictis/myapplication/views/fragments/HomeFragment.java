@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
 
         userController = new UserController(myView.getContext());
         userController.bindOnSocketsEvent();
+
         locationController = new LocationController(myView.getContext());
         locationController.initialise();
 

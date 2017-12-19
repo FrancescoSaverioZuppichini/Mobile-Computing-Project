@@ -81,6 +81,8 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
 
     }
 
+
+
     @Override
     public boolean onMarkerClick(final Marker marker) {
         System.out.println("MARKER CLICKED");

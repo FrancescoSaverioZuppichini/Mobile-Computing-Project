@@ -151,7 +151,6 @@ public class UserController {
             }
         });
     }
-
     public void doLogout(){
         SharedPreferences preferences = context.getSharedPreferences(PREF_KEY, 0);
         preferences.edit().remove("token").apply();
@@ -177,7 +176,10 @@ public class UserController {
             hasAlreadyOpenMap = true;
 
 //          Little hack -> TODO: properly change the map reference and update a flag to nofity we have a new map
-            myMarker = currentMap.addMarker(new MarkerOptions().position(user.getLatLng()).title("You"));
+            myMarker = currentMap.addMarker(new MarkerOptions()
+                    .position(user.getLatLng())
+                    .icon(Utils.bitmapDescriptorFromVector(context, R.drawable.ic_marker))
+                    .title("You"));
 
             myMarker.showInfoWindow();
 
@@ -276,7 +278,7 @@ public class UserController {
                     SocketClient.start();
                     SocketClient.socket.connect();
                     Intent goToHome = new Intent(context, HomeActivity.class);
-//                    goToHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    goToHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(goToHome);
 
                 } else {
@@ -404,9 +406,10 @@ public class UserController {
 
             @Override
             public void call(Object... args) {
+                System.out.println("******help_request*********");
+
                 if(isCalling) return;
                 JSONObject obj = (JSONObject)args[0];
-                System.out.println("help_request");
                 try {
 
                     final JSONObject from = (JSONObject) obj.get("from");
@@ -422,7 +425,6 @@ public class UserController {
                     createHelpRequestNotification();
 
                     Handler toastHandler = new Handler(Looper.getMainLooper());
-//                        TODO add a flag to avoid spam
                     toastHandler.post(new Runnable() {
                         public void run() {
                             FragmentActivity activity = (FragmentActivity) context;
@@ -464,7 +466,6 @@ public class UserController {
                         @Override
                         public void run() {
                             if(UsersFragment.adapter != null){
-//                                TODO check it
                                 UsersFragment.adapter.notifyDataSetChanged();
                             }
                         }
@@ -566,18 +567,37 @@ public class UserController {
             public void call(Object... args) {
                 if(isCalling) return;
                 JSONObject obj = (JSONObject)args[0];
-                System.out.println("help_end_success");
-                stopHelp();
-                Handler toastHandler = new Handler(Looper.getMainLooper());
-//                        TODO add a flag to avoid spam
-                toastHandler.post(new Runnable() {
+
+                try {
+
+                    final JSONObject from = (JSONObject) obj.get("from");
+
+                    Gson gson = new Gson();
+
+                    final User userThatDoesNotNeedHelpAnymore = gson.fromJson(from.toString(), User.class);
+
+                    if(fromUser == null) return;
+                    if(!userThatDoesNotNeedHelpAnymore.getEmail().equals(fromUser.getEmail())) return;
+
+                    System.out.println("help_end_success");
+                    stopHelp();
+                    Handler toastHandler = new Handler(Looper.getMainLooper());
+
+                    toastHandler.post(new Runnable() {
                     public void run() {
                         DynamicToast.makeWarning(context, "The users does not require help anymore", Toast.LENGTH_LONG).show();
 
                     }
                 });
+
+                } catch (JSONException e) {
+                    System.out.println(e.getCause());
+                }
+
             }
         });
+
+        SocketClient.socket.emit("identify_me", UserController.user.get_id());
     }
 
     public void endCall(){
@@ -586,7 +606,6 @@ public class UserController {
             @Override
             public void run() {
                 if(UsersFragment.adapter != null){
-//                                TODO check it
                     UsersFragment.adapter.notifyDataSetChanged();
                 }
                 CounterFab counterFab =  ((Activity) context).findViewById(R.id.people);
