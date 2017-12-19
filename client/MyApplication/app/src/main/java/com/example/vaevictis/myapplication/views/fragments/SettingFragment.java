@@ -19,6 +19,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import com.xw.repo.BubbleSeekBar;
 
 import java.util.List;
@@ -54,12 +55,9 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
         userController = new UserController(getActivity());
 
         seekBar = myView.findViewById(R.id.radius_seeker);
-        seekBar.setProgress(UserController.user.getPreferences().getRadiusInMeters());
         confirmButton = myView.findViewById(R.id.confirm);
 
         emailField =  myView.findViewById(R.id.email);
-
-        emailField.setText(UserController.user.getEmail());
 
         passwordField = myView.findViewById(R.id.password);
 
@@ -78,6 +76,9 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
     }
 
     private void updateViews(){
+        seekBar.setProgress(UserController.user.getPreferences().getRadiusInMeters());
+
+        emailField.setText(UserController.user.getEmail());
 
         if(UserController.user.getRole().equals("USER")) {
             userSelector.setChecked(true);
@@ -142,6 +143,9 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
 //        String password = passwordField.getText().toString();
 
         userController.updateUser();
+        updateViews();
+
+        DynamicToast.makeSuccess(getContext(), "Information updated", Toast.LENGTH_SHORT).show();
 
     }
 

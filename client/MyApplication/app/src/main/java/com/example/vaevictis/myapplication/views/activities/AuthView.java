@@ -57,10 +57,6 @@ public class AuthView extends AppCompatActivity implements Validator.ValidationL
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                Intent goToHome = new Intent(AuthView.this, HomeActivity.class);
-//                startActivity(goToHome);
-//            TODO ricordarsi di rimetterlo senno non va 1 cazzo
                 validator.validate();
             }
         });
@@ -70,6 +66,7 @@ public class AuthView extends AppCompatActivity implements Validator.ValidationL
             public void onClick(View v) {
 
                 Intent switchToSignUp = new Intent(AuthView.this, RegisterView.class);
+//                switchToSignUp.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(switchToSignUp);
             }
         });
