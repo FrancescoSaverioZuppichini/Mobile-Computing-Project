@@ -11,54 +11,87 @@
         android:orientation="vertical"
         android:layout_margin="8dp">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/email"
-        android:hint="Email"
-        android:inputType="text"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/password"
-        android:hint="Password"
-        android:inputType="textPassword"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Who you are?"
-        android:textSize="16dp"
-        />
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RadioButton android:id="@+id/radio_user"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="60dp"
+            android:paddingBottom="10dp"
+            android:text="Settings"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/white"
+            android:textSize="11pt" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+            android:textColorHint="@color/gray"
+            android:textColor="@android:color/white"
+            android:id="@+id/email"
+            android:hint="Email"
+            android:inputType="text"
+            android:theme="@style/AppTheme"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="20dp"
+            android:textColorHint="@color/gray"
+            android:textColor="@android:color/white"
+            android:id="@+id/password"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:theme="@style/AppTheme"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Who you are?"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
             />
-        <RadioButton android:id="@+id/radio_volunteer"
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/radio_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                android:buttonTint="@color/gray" />
+            <RadioButton android:id="@+id/radio_volunteer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/volunteer"
+                android:textColor="@color/gray"
+                android:textSize="18dp"
+                android:buttonTint="@color/gray" />
+        </RadioGroup>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/volunteer"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Your medical information"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
             />
-    </RadioGroup>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your medical information"
-        android:textSize="16dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Blood type"
-        />
-    <Spinner
-        android:id="@+id/bloodSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blood type"
+            android:textColor="@color/gray"
+            android:textSize="16dp"
+            />
+        <Spinner
+            android:id="@+id/bloodSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
         <com.xw.repo.BubbleSeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,12 +106,21 @@
             app:bsb_show_section_text="true"
             app:bsb_show_thumb_text="true"
             />
-
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONFIRM"
-            android:id="@+id/confirm"/>
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+            <Button
+                android:layout_width="@dimen/material_drawer_width"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:text="Confirm"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
+                android:id="@+id/confirm"/>
+        </LinearLayout>
     </LinearLayout>
 
 

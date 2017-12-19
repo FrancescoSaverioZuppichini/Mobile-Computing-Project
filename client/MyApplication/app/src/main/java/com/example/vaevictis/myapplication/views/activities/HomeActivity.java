@@ -154,9 +154,9 @@ public class HomeActivity extends FragmentActivity {
                 if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
                     return DrawerUIUtils.getPlaceHolder(ctx);
                 } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
-                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(com.mikepenz.materialdrawer.R.color.primary).sizeDp(56);
+                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.colorPrimaryDark).sizeDp(56);
                 } else if ("customUrlItem".equals(tag)) {
-                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
+                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.colorPrimary).sizeDp(56);
                 }
 
                 DrawerImageLoader.Tags.PROFILE_DRAWER_ITEM.name();
@@ -174,7 +174,7 @@ public class HomeActivity extends FragmentActivity {
 
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.color.md_red_700)
+                .withHeaderBackground(R.color.colorPrimary)
                 .addProfiles(
                         new ProfileDrawerItem().withEmail(UserController.user.getEmail()).withIcon(APIProvider.BASE_URL + UserController.user.getAvatar()).withIdentifier(100)
                 )
