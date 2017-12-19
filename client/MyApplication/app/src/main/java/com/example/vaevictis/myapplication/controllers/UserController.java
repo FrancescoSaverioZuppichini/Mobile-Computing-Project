@@ -1,5 +1,6 @@
 package com.example.vaevictis.myapplication.controllers;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,8 +8,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -201,6 +205,18 @@ public class UserController {
         }
     }
 
+    public void makePhoneCall(){
+        String phoneNumber = "118";
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("DIOCANE");
+            return;
+        }
+        context.startActivity(callIntent);
+    }
+
     public void updateUser(){
         if(!isLoggedIn) {
             return;
@@ -258,6 +274,7 @@ public class UserController {
                     SocketClient.start();
                     SocketClient.socket.connect();
                     Intent goToHome = new Intent(context, HomeActivity.class);
+//                    goToHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     context.startActivity(goToHome);
 
                 } else {
@@ -550,7 +567,7 @@ public class UserController {
 //                        TODO add a flag to avoid spam
                 toastHandler.post(new Runnable() {
                     public void run() {
-                        DynamicToast.makeWarning(context, "The users does not require help anymore").show();
+                        DynamicToast.makeWarning(context, "The users does not require help anymore", Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -595,6 +612,7 @@ public class UserController {
 
     public void call(){
         SocketClient.socket.emit("help","HELP");
+        makePhoneCall();
         isCalling = true;
     }
 
