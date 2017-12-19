@@ -31,7 +31,8 @@
             android:textColorHint="@color/gray"
             android:id="@+id/email"
             android:hint="Email"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:theme="@style/AppTheme"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +40,8 @@
             android:textColorHint="@color/gray"
             android:id="@+id/password"
             android:hint="Password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:theme="@style/AppTheme"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,20 +108,20 @@
                 android:text="Sing Up"
                 android:textColor="@android:color/white"
                 android:backgroundTint="@color/colorAccent"
-                android:id="@+id/signIn"/>
+                android:id="@+id/signUp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:text="Already have an account?"/>
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/material_drawer_width"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
                 android:text="sign In"
                 android:textColor="@color/darkGray"
                 android:backgroundTint="@color/gray"
-                android:id="@+id/signUp"/>
+                android:id="@+id/signIn"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
