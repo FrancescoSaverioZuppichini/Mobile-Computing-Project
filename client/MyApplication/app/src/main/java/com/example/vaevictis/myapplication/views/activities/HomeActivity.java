@@ -136,7 +136,7 @@ public class HomeActivity extends FragmentActivity {
             }
         }
     }
-    
+
 
     private void addDrawer(){
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {

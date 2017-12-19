@@ -13,6 +13,7 @@ router.get('/', async(req, res, next) => {
 
 router.get('/me', async(req, res, next) => {
   try {
+    console.log(req.user)
     res.json(req.user);
 
   } catch (err) {
@@ -54,7 +55,7 @@ router.put('/', async(req, res, next) => {
     updatedUser = await updatedUser.save()
     updatedUser = updatedUser.toObject()
     delete updatedUser.password
-    // console.log(updatedUser)
+    console.log(updatedUser)
     res.send(updatedUser);
 
   } catch (err) {

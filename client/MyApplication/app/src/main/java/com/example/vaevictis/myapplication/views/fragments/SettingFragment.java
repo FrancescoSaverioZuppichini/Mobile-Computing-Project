@@ -72,7 +72,7 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
         volunteerSelector = myView.findViewById(R.id.radio_volunteer);
 
         spinner = myView.findViewById(R.id.bloodSpinner);
-
+        System.out.println(UserController.user.getPreferences().getRadiusInMeters());
         addListenerOnButton();
         setUpBloodSpinner();
         updateViews();
@@ -107,7 +107,6 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
         seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                System.out.println(progress);
                 UserController.user.getPreferences().setRadiusInMeters(progress);
 
             }
