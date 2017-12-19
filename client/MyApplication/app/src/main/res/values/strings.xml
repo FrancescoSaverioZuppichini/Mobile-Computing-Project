@@ -4,6 +4,8 @@
     <string name="title_activity_auth_view2">AuthView2</string>
     <string name="user">User</string>
     <string name="volunteer">Volunteer</string>
+    <string name="nopanic">Don\'t panic.</string>
+    <string name="help">We are here to help you</string>
     <string-array name="bloodTypes">
         <item>O+</item>
         <item>A+</item>

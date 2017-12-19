@@ -23,7 +23,7 @@
         android:layout_marginRight="@dimen/fab_margin"
         app:fabSize="normal"
         android:scaleType="center"
-        app:backgroundTint="@color/md_red_500"
+        app:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_clear_black_24px"/>

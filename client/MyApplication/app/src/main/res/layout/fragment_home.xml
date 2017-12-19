@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.vaevictis.myapplication.views.activities.HomeActivity">
 
@@ -10,15 +11,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="3">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome home!"
-            android:layout_weight="1"/>
+            android:layout_weight="0.6"
+            android:paddingTop="80dp"
+            android:gravity="center"
+            android:text="@string/nopanic"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/white"
+            android:textSize="16pt" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center_horizontal"
+            android:text="@string/help"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/white"
+            android:textSize="12pt" />
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="2">
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/main_phone"
                 android:layout_width="wrap_content"
@@ -30,15 +47,7 @@
                 app:backgroundTint="@color/md_green_500"
                 android:tint="@android:color/white"
                 android:src="@drawable/ic_phone_black_24px"/>
-        </RelativeLayout><LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Icons with settings"/>
-        </LinearLayout>
+        </RelativeLayout>
            <com.andremion.counterfab.CounterFab
                android:id="@+id/people"
                android:layout_width="wrap_content"
@@ -46,10 +55,10 @@
                android:layout_margin="@dimen/fab_margin"
                app:fabSize="normal"
                android:scaleType="center"
-               app:backgroundTint="@color/md_blue_500"
+               app:backgroundTint="@color/colorAccent"
                android:tint="@android:color/white"
                android:layout_gravity="bottom|end"
-               android:src="@drawable/ic_person_black_24px"/>
+               android:src="@drawable/ic_supervisor_account_black_24dp"/>
 
     </LinearLayout>
 
