@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="20dp"
             android:textColorHint="@color/gray"
+            android:textColor="@android:color/white"
             android:id="@+id/email"
             android:hint="Email"
             android:inputType="text"
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="20dp"
             android:textColorHint="@color/gray"
+            android:textColor="@android:color/white"
             android:id="@+id/password"
             android:hint="Password"
             android:inputType="textPassword"
@@ -60,14 +62,14 @@
                 android:text="@string/user"
                 android:textColor="@color/gray"
                 android:textSize="18dp"
-                android:buttonTint="@color/darkGray" />
+                android:buttonTint="@color/gray" />
             <RadioButton android:id="@+id/radio_volunteer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/volunteer"
                 android:textColor="@color/gray"
                 android:textSize="18dp"
-                android:buttonTint="@color/darkGray" />
+                android:buttonTint="@color/gray" />
         </RadioGroup>
         <TextView
             android:layout_width="wrap_content"
