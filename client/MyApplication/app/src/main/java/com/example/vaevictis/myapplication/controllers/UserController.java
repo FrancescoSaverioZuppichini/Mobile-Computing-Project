@@ -66,13 +66,14 @@ public class UserController {
     public static ArrayList<User> usersThatHelps = new ArrayList<>();
     public static GoogleMap currentMap;
     public static Marker myMarker;
-    public static Marker fromMarker;
     public static boolean hasAlreadyOpenMap = false;
     private Context context;
+    public static HelpFragment helpFragment;
     public static boolean isCalling = false;
 
     public UserController(Context context) {
         this.context = context;
+        LoaderController.context = context;
     }
 
     public void doSignIn(String email, String password) {
@@ -180,8 +181,9 @@ public class UserController {
 
             myMarker.showInfoWindow();
 
-//            user.setMarker(myMarker);
-//            System.out.println("updated user marker");
+            if(helpFragment != null){
+                displayRoutes(helpFragment);
+            }
 
             if(fromUser != null){
                 System.out.println(fromUser.marker);
@@ -259,7 +261,7 @@ public class UserController {
 
     public void getMe(){
         final Call<User> res = APIProvider.service.getMe("Bearer " + user.getToken().getValue());
-
+        LoaderController.toogleLoad();
         res.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -289,6 +291,9 @@ public class UserController {
                     System.out.println(response.errorBody());
                     System.out.println(response.body());
                 }
+
+                LoaderController.toogleLoad();
+
             }
 
             @Override

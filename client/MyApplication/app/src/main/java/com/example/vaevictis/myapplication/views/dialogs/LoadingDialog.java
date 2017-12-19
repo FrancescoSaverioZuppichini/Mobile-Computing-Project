@@ -7,36 +7,34 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.example.vaevictis.myapplication.controllers.UserController;
-import com.example.vaevictis.myapplication.views.fragments.HomeFragment;
 
 /**
- * Created by vaevictis on 17.12.17.
+ * Created by vaevictis on 19.12.17.
  */
-public class UserWillStopCallDialog extends DialogFragment {
-    HomeFragment homeFragment;
+
+public class LoadingDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         final UserController userController = new UserController(getActivity());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Are you sure you want quit the call?");
-        builder.setMessage("All the users around will be notified.")
-                .setPositiveButton("STOP CALL", new DialogInterface.OnClickListener() {
+        builder.setTitle("User " + UserController.fromUser.getEmail() +  " call for help!");
+        builder.setMessage(UserController.fromUser.getDist() + " meters from you")
+                .setPositiveButton("HELP HIM", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        userController.endCall();
-                        homeFragment.onAskForHelp();
+                        userController.willHelp(UserController.fromUser);
                         dialog.dismiss();
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        UserController.fromUser = null;
+                        UserController.isHelping = false;
                     }
                 });
 
         return builder.create();
     }
-
-    public void setHomeFragment(HomeFragment homeFragment) {
-        this.homeFragment = homeFragment;
-    }
 }
+

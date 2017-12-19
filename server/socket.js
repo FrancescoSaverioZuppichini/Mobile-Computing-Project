@@ -20,11 +20,12 @@ module.exports = function(server) {
 
         socket.on("help", async (data) =>{
             console.log(socket.user_id)
-            console.log(data)
             var user = await User.findById(socket.user_id)
             var neighbors = await user.getNeighbors()
             // CHECK: should I remove myself?
             neighbors.shift()
+            // console.log(neighbors);
+// 
             neighbors.forEach( neighbor => {
                 const socket = users[neighbor._id]
                 const isOnline = socket != null
@@ -89,7 +90,7 @@ module.exports = function(server) {
                 if(isOnline){
                     // CHECK: we should create a new obj
                     user.dist = neighbor.dist
-                    console.log(neighbor.email)
+                    // console.log(neighbor.email)
                     
                     socket.emit("update_user", { from: user } )
                 }   else{

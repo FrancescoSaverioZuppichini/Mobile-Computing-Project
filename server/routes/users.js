@@ -13,7 +13,6 @@ router.get('/', async(req, res, next) => {
 
 router.get('/me', async(req, res, next) => {
   try {
-
     res.json(req.user);
 
   } catch (err) {
@@ -45,7 +44,6 @@ router.get('/nearby', async(req, res, next) => {
 
 router.put('/', async(req, res, next) => {  
   try {
-    console.log(req.body)
     var updatedUser = await User.findByIdAndUpdate(req.user._id, {
       $set: req.body
     }, {
@@ -56,7 +54,7 @@ router.put('/', async(req, res, next) => {
     updatedUser = await updatedUser.save()
     updatedUser = updatedUser.toObject()
     delete updatedUser.password
-    console.log(updatedUser)
+    // console.log(updatedUser)
     res.send(updatedUser);
 
   } catch (err) {

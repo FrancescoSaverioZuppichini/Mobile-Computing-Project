@@ -6,4 +6,6 @@
     <color name="lightGray">#F5F5F6</color>
     <color name="gray">#E1E2E1</color>
     <color name="darkGray">#4A4A4A</color>
+    <color name="transparent">#00000000</color>
+
 </resources>

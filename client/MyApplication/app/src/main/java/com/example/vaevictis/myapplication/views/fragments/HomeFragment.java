@@ -44,6 +44,8 @@ public class HomeFragment extends Fragment {
         peopleCounterFab = myView.findViewById(R.id.people);
         addListenerOnButton();
 
+        onAskForHelp();
+
         return myView;
     }
 
@@ -53,10 +55,16 @@ public class HomeFragment extends Fragment {
         int color = userController.isCalling() ? R.color.md_red_500 : R.color.md_green_500 ;
 
         if(!userController.isCalling()){
-            System.out.println("STOP");
-            animation.stop(false);
+            if(animation != null) {
+                System.out.println("STOP");
+                animation.stop(false);
+            }
         }
-        else {
+        else if(userController.isCalling()) {
+            if(animation != null) {
+                System.out.println("STOP");
+                animation.stop(false);
+            }
             animation = YoYo.with(Techniques.Tada)
                     .duration(700)
                     .repeat(YoYo.INFINITE)
@@ -73,9 +81,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
                 if(!UserController.isCalling) {
-                        userController.call();
-                        onAskForHelp();
-                        UserController.isCalling = true;
+                    userController.call();
+                    onAskForHelp();
+                    UserController.isCalling = true;
                 } else {
                     UserWillStopCallDialog newFragment = new UserWillStopCallDialog();
                     newFragment.setHomeFragment(HomeFragment.this);
@@ -84,7 +92,7 @@ public class HomeFragment extends Fragment {
                     newFragment.show(manager, "will_end_call");
                 }
 
-                }
+            }
         });
 
         peopleCounterFab.setOnClickListener(new View.OnClickListener() {

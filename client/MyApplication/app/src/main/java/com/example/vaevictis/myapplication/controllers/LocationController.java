@@ -15,13 +15,13 @@ import android.support.v4.content.ContextCompat;
 /**
  * Created by vaevictis on 01.12.17.
  */
-public class LocationController implements LocationListener{
+public class LocationController implements LocationListener {
 
     private LocationManager locationManager;
     private Context context;
 
-    private int MIN_TIME = 1000;
-    private float MIN_DISTANCE = (float) 0.1;
+    private int MIN_TIME = 5000;
+    private float MIN_DISTANCE = (float) 5;
 
     public LocationController(Context context) {
 
@@ -34,7 +34,6 @@ public class LocationController implements LocationListener{
             this.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
         } else{
-//            TODO add callback
             ActivityCompat.requestPermissions((Activity) context,new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, 1);
         }
     }

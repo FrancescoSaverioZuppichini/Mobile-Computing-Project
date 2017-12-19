@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
 import com.directions.route.Route;
@@ -33,16 +32,14 @@ import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
-public class HelpFragment extends Fragment implements OnMapReadyCallback, RoutingListener {
+public class HelpFragment extends Fragment implements OnMapReadyCallback, RoutingListener, GoogleMap.OnMarkerClickListener {
     private View myView;
     private UserController userController;
-    private boolean isDestroyed = false;
     public SupportMapFragment mapFrag;
     static public GoogleMap map = null;
     ArrayList<Polyline> polylines = new ArrayList<>();
     private static final int[] COLORS = new int[]{R.color.primary_dark,R.color.primary,R.color.primary_light,R.color.accent,R.color.primary_dark_material_light};
 
-    static Marker myMaker;
     static public Marker toHelpMaker;
 
     private CounterFab stopHelpButton;
@@ -56,6 +53,7 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
                 .findFragmentById(R.id.mapsfragment);
         mapFrag.getMapAsync(this);
 
+        UserController.helpFragment = this;
         userController = new UserController(getActivity());
         stopHelpButton = myView.findViewById(R.id.stop_help);
 
@@ -76,11 +74,25 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.clear();
+
         UserController.currentMap = map;
-
         userController.updateMap();
+        googleMap.setOnMarkerClickListener(this);
 
-        userController.displayRoutes(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        System.out.println("MARKER CLICKED");
+        if (marker.equals(toHelpMaker))
+        {
+            //handle click here
+            if(UserController.fromUser.getMedicInfo() != null) {
+                toHelpMaker.setTitle(UserController.fromUser.getMedicInfo().getBlood());
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -107,10 +119,9 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
         }
 
         polylines = new ArrayList<>();
-        //add route(s) to the map.
+
         for (int i = 0; i <route.size(); i++) {
 
-            //In case of more than 5 alternative routes
             int colorIndex = i % COLORS.length;
 
             PolylineOptions polyOptions = new PolylineOptions();
@@ -119,13 +130,7 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
             polyOptions.addAll(route.get(i).getPoints());
             Polyline polyline = map.addPolyline(polyOptions);
             polylines.add(polyline);
-
-            Toast.makeText(getActivity().getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
         }
-//        marker = myMaker;
-//        getAndDrawCustomMaker(UserController.user, APIProvider.BASE_URL + "images/" + UserController.user.get_id() + "-green.png");
-//        marker = toHelpMaker;
-        userController.updateMap();
 
     }
 
@@ -139,7 +144,6 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
                         bitmap = Utils.getCircular(bitmap, bitmap.getWidth()/2);
-//                        bitmap = Utils.addColorBorder(bitmap, 8, Color.BLACK);
                         if(toHelpMaker != null) {
                             toHelpMaker.remove();
                         }
@@ -166,12 +170,6 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
 
                     }
                 });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        isDestroyed = true;
     }
 
     @Override

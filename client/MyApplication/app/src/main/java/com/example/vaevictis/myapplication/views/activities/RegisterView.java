@@ -3,11 +3,9 @@ package com.example.vaevictis.myapplication.views.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.R;
@@ -30,8 +28,6 @@ public class RegisterView extends AppCompatActivity implements Validator.Validat
     @NotEmpty
     EditText passwordField;
 
-    Spinner spinner;
-
     RadioButton userSelector;
     RadioButton volunteerSelector;
 
@@ -43,7 +39,7 @@ public class RegisterView extends AppCompatActivity implements Validator.Validat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_view);
-        
+
         userController = new UserController(this);
 
         validator = new Validator(this);
@@ -55,21 +51,13 @@ public class RegisterView extends AppCompatActivity implements Validator.Validat
         emailField = (EditText) findViewById(R.id.email);
         passwordField = (EditText) findViewById(R.id.password);
 
-        userSelector = (RadioButton) findViewById(R.id.radio_user);
-        volunteerSelector = (RadioButton) findViewById(R.id.radio_volunteer);
+        userSelector =  findViewById(R.id.radio_user);
+        volunteerSelector =  findViewById(R.id.radio_volunteer);
 
-        spinner = (Spinner) findViewById(R.id.bloodSpinner);
 
         addListenerOnButton();
-        setUpBloodSpinner();
     }
 
-    private void setUpBloodSpinner(){
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.bloodTypes, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
 
     private void addListenerOnButton(){
         signIn.setOnClickListener(new View.OnClickListener() {

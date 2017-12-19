@@ -23,7 +23,6 @@ public class UserWillStopHelpDialog extends DialogFragment {
         builder.setMessage("By stopping helping a user you won't be able to reach him again.")
                 .setPositiveButton("STOP HELP", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        System.out.println("STOPPPPP HELLLLLLLLPPP");
                         userController.stopHelp();
                         dialog.dismiss();
                     }

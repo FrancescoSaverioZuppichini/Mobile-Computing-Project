@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.controllers.UserController;
+import com.example.vaevictis.myapplication.models.MedicInfo;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -22,11 +23,13 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import com.xw.repo.BubbleSeekBar;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SettingFragment extends Fragment implements Validator.ValidationListener{
     View myView;
-
+    List<String> bloodTypes = new ArrayList<>();
     private BubbleSeekBar seekBar;
     private Button confirmButton;
 
@@ -51,7 +54,9 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
 
         validator = new Validator(this);
         validator.setValidationListener(this);
-
+//        since android is the shittiest thing ever made by a human been, its too hard/impossible/idk
+//        to fetch the list we have in strings.xml
+        bloodTypes = Arrays.asList("O+", "A+", "B+", "AB+", "O", "A", "B", "AB");
         userController = new UserController(getActivity());
 
         seekBar = myView.findViewById(R.id.radius_seeker);
@@ -68,9 +73,9 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
 
         spinner = myView.findViewById(R.id.bloodSpinner);
 
-        updateViews();
         addListenerOnButton();
         setUpBloodSpinner();
+        updateViews();
 
         return myView;
     }
@@ -84,6 +89,10 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
             userSelector.setChecked(true);
         } else {
             volunteerSelector.setChecked(true);
+        }
+        if(UserController.user.getMedicInfo() != null) {
+            int index = bloodTypes.indexOf(UserController.user.getMedicInfo().getBlood());
+            spinner.setSelection(index);
         }
     }
 
@@ -142,6 +151,12 @@ public class SettingFragment extends Fragment implements Validator.ValidationLis
         UserController.user.setEmail( emailField.getText().toString());
 //        String password = passwordField.getText().toString();
 
+        String bloodType = spinner.getSelectedItem().toString();
+        if(UserController.user.getMedicInfo()  == null){
+            UserController.user.setMedicInfo(new MedicInfo(bloodType));
+        }else {
+            UserController.user.getMedicInfo().setBlood(bloodType);
+        }
         userController.updateUser();
         updateViews();
 

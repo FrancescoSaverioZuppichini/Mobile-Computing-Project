@@ -13,6 +13,7 @@ public class User {
     private String role = "USER";
     private String _id;
     private Preferences preferences;
+    private MedicInfo medicInfo;
     private Token token;
     private double dist;
     public Marker marker = null;
@@ -106,8 +107,12 @@ public class User {
         return new LatLng(location.getLatitude(), location.getLongitude());
     }
 
+    public MedicInfo getMedicInfo() {
+        return medicInfo;
+    }
 
-
-
+    public void setMedicInfo(MedicInfo medicInfo) {
+        this.medicInfo = medicInfo;
+    }
 }
 
