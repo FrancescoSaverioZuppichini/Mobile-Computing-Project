@@ -4,22 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context="com.example.vaevictis.myapplication.views.activities.AuthView">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/AppTheme.AppBarOverlay">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            app:title="FindMyCross"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--app:title="@string/app_name"-->
+            <!--app:titleTextColor="@android:color/white"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
 
-    </android.support.design.widget.AppBarLayout>
+    <!--</android.support.design.widget.AppBarLayout>-->
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -37,15 +39,31 @@
             android:paddingTop="24dp"
             android:layout_margin="8dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingVertical="50dp"
+                android:text="@string/app_name"
+                android:fontFamily="sans-serif"
+                android:textColor="@android:color/white"
+                android:textSize="12pt" />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:layout_marginVertical="10dp"
+                android:textColorHint="@color/gray"
                 android:id="@+id/email"
                 android:hint="Email"
                 android:inputType="text"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:layout_marginVertical="10dp"
+                android:textColorHint="@color/gray"
                 android:id="@+id/password"
                 android:hint="Password"
                 android:inputType="textPassword"/>
@@ -56,18 +74,25 @@
                 android:orientation="vertical"
                 >
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/material_drawer_width"
                     android:layout_height="wrap_content"
-                    android:text="SingIn"
+                    android:layout_marginVertical="30dp"
+                    android:text="Sing In"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/colorAccent"
                     android:id="@+id/signIn"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
                     android:text="No account?"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="signUp"
+                    android:layout_marginVertical="10dp"
+                    android:text="sign Up"
+                    android:textColor="@color/darkGray"
+                    android:backgroundTint="@color/gray"
                     android:id="@+id/signUp"/>
 
             </LinearLayout>
