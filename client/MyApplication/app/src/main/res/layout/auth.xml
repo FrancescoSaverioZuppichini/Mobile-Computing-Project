@@ -57,7 +57,8 @@
                 android:textColorHint="@color/gray"
                 android:id="@+id/email"
                 android:hint="Email"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:theme="@style/AppTheme"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,7 +67,8 @@
                 android:textColorHint="@color/gray"
                 android:id="@+id/password"
                 android:hint="Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:theme="@style/AppTheme"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
