@@ -484,14 +484,12 @@ public class UserController {
                     User updatedUser = gson.fromJson(from.toString(), User.class);
                     if(fromUser != null){
                         if(fromUser.getEmail().equals(updatedUser.getEmail())){
-                            System.out.println("DIOCANE FROM USER");
                             updatedUser.marker = fromUser.marker;
                             fromUser = updatedUser;
                         }
                     }
                     for(User user: usersThatHelps){
                         if(user.getEmail().equals(updatedUser.getEmail())){
-                            System.out.println("DIOCANE USER THAT HELPS");
                             user = updatedUser;
                         }
                     }
