@@ -55,7 +55,7 @@ router.put('/', async(req, res, next) => {
     updatedUser = await updatedUser.save()
     updatedUser = updatedUser.toObject()
     delete updatedUser.password
-    console.log(updatedUser)
+    // console.log(updatedUser)
     res.send(updatedUser);
 
   } catch (err) {

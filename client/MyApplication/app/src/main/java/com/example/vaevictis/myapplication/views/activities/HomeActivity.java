@@ -2,6 +2,7 @@ package com.example.vaevictis.myapplication.views.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -216,7 +217,7 @@ public class HomeActivity extends FragmentActivity {
                                 System.out.println("SETTINGS");
                                 removeAll();
                                 UserController.currentMap = null;
-
+                                UserController.hasAlreadyOpenMap = false;
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, settingFragment)
                                         .commit();
@@ -224,6 +225,7 @@ public class HomeActivity extends FragmentActivity {
                             case(1):
                                 removeAll();
                                 UserController.currentMap = null;
+                                UserController.hasAlreadyOpenMap = false;
                                 if(UserController.isHelping) {
                                     switchToFragment(helpFragment, true);
                                 } else {
@@ -235,7 +237,9 @@ public class HomeActivity extends FragmentActivity {
                                 break;
                             case(5):
                                 userController.doLogout();
-                                onBackPressed();
+                                Intent goToAuth= new Intent(HomeActivity.this, AuthView.class);
+                                goToAuth.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(goToAuth);
                                 System.out.println("LOGOUT");
 
                         }

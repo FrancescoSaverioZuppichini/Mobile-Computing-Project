@@ -173,9 +173,7 @@ public class UserController {
                 myMarker.remove();
             }
 
-            hasAlreadyOpenMap = true;
 
-//          Little hack -> TODO: properly change the map reference and update a flag to nofity we have a new map
             myMarker = currentMap.addMarker(new MarkerOptions()
                     .position(user.getLatLng())
                     .icon(Utils.bitmapDescriptorFromVector(context, R.drawable.ic_marker))
@@ -188,8 +186,7 @@ public class UserController {
             }
 
             if(fromUser != null){
-                System.out.println(fromUser.marker);
-                    if(HelpFragment.toHelpMaker == null){
+                    if(HelpFragment.toHelpMaker == null || !hasAlreadyOpenMap) {
                         HelpFragment.getAndDrawCustomMaker(fromUser, "-red.png", context);
 
                     } else {
@@ -197,14 +194,7 @@ public class UserController {
                     }
 
             }
-//
-//            for(User userThatHelps: usersThatHelps){
-//
-// userThatHelps.marker = currentMap.addMarker(new MarkerOptions().position(userThatHelps.getLatLng()));
-//                HelpFragment.getAndDrawCustomMaker(fromUser, ".png", context);
-//
-//            }
-
+            hasAlreadyOpenMap = true;
 
         }
     }

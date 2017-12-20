@@ -39,7 +39,7 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
     static public GoogleMap map = null;
     ArrayList<Polyline> polylines = new ArrayList<>();
     private static final int[] COLORS = new int[]{R.color.primary_dark,R.color.primary,R.color.primary_light,R.color.accent,R.color.primary_dark_material_light};
-
+    public boolean isDetach = false;
     static public Marker toHelpMaker;
 
     private CounterFab stopHelpButton;
@@ -49,6 +49,7 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_help, container, false);
 
+        isDetach = false;
         mapFrag = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.mapsfragment);
         mapFrag.getMapAsync(this);
@@ -90,7 +91,8 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
         {
             //handle click here
             if(UserController.fromUser.getMedicInfo() != null) {
-                toHelpMaker.setTitle(UserController.fromUser.getMedicInfo().getBlood());
+                toHelpMaker.setTitle(UserController.fromUser.getEmail() + " - " + UserController.fromUser.getMedicInfo().getBlood());
+                toHelpMaker.showInfoWindow();
             }
             return true;
         }
@@ -111,7 +113,20 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Routin
     }
 
     @Override
+    public void onAttach(Context context) {
+        isDetach = false;
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        isDetach = true;
+        super.onDetach();
+    }
+
+    @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+        if(isDetach) return;
         System.out.println("onRoutingSuccess");
 
         if(polylines.size()>0) {
