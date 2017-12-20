@@ -13,9 +13,9 @@ public class APIProvider {
 //    casa verona
 //      public static final String BASE_URL = "http://192.168.1.193:3000/";
 //    my house lugano
-    public static final String BASE_URL = "http://192.168.1.25:3000/";
+//    public static final String BASE_URL = "http://192.168.1.25:3000/";
 //    uni
-//    public static final String BASE_URL = "http://10.62.132.253:3000/";
+    public static final String BASE_URL = "http://10.62.132.253:3000/";
 //    casa alessia
 //    public static final String BASE_URL = "http://192.168.8.107:3000";
 

@@ -13,7 +13,6 @@ router.get('/', async(req, res, next) => {
 
 router.get('/me', async(req, res, next) => {
   try {
-    console.log(req.user)
     res.json(req.user);
 
   } catch (err) {
@@ -33,11 +32,9 @@ router.put('/refresh/me', async(req, res, next) => {
 router.get('/nearby', async(req, res, next) => {
   const coordinates = req.user.location.coordinates
   try {
-
     const user = await User.findById(req.user._id)
     const users = await user.getNeighbors()
     res.json(users)
-      
   } catch (err) {
     next(err)
   }
