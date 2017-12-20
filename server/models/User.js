@@ -88,8 +88,7 @@ userSchema.methods.getNeighbors = function (from) {
   const coordinates = this.location.coordinates
 
   return this.model('User').aggregate(
-    [
-      {
+    [{
         "$geoNear": {
           "near": {
             "type": "Point",
@@ -99,16 +98,11 @@ userSchema.methods.getNeighbors = function (from) {
           "spherical": true,
           "maxDistance": this.radiusInMeters
         }
-      }
+      },
     ])
 }
 
 
-// {
-//   $match: {
-//     role: "VOLUNTEER"
-//   }
-// }
 userSchema.index({
   location: '2dsphere'
 })

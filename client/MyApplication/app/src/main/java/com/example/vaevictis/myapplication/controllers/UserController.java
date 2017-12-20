@@ -25,7 +25,6 @@ import com.example.vaevictis.myapplication.APIProvider.SocketClient;
 import com.example.vaevictis.myapplication.GoogleAPI.GoogleAPIService;
 import com.example.vaevictis.myapplication.R;
 import com.example.vaevictis.myapplication.Utils;
-import com.example.vaevictis.myapplication.models.RawLocation;
 import com.example.vaevictis.myapplication.models.Token;
 import com.example.vaevictis.myapplication.models.User;
 import com.example.vaevictis.myapplication.views.activities.HomeActivity;
@@ -205,7 +204,6 @@ public class UserController {
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("DIOCANE");
             return;
         }
         context.startActivity(callIntent);
@@ -236,7 +234,6 @@ public class UserController {
 
                     Gson gson = new Gson();
                     SocketClient.socket.emit("update", gson.toJson(user));
-//                    Toast.makeText(context, "Position Updated", Toast.LENGTH_SHORT).show()
                 }
                 else {
                     System.out.println(response.errorBody());
@@ -299,8 +296,8 @@ public class UserController {
     public void createHelpRequestNotification(){
 
         int notifyID = 1;
-        String CHANNEL_ID = "my_channel_01";// The id of the channel.
-        CharSequence name = "ANDROID_SHIT";// The user-visible name of the channel.
+        String CHANNEL_ID = "my_channel_01";
+        CharSequence name = "ANDROID_SHIT";
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
 
@@ -329,16 +326,14 @@ public class UserController {
     }
 
     public void displayRoutes(HelpFragment context){
-        LatLng here = new LatLng(user.getLocation().getLatitude(), user.getLocation().getLongitude());
-//            TODO create a helper method to automatically parse and return LatLng
-        RawLocation rawLocation = fromUser.getLocation();
-        if(rawLocation == null) return;
-        LatLng usi = new LatLng(rawLocation.getLatitude(),rawLocation.getLongitude());
+
+        LatLng end = fromUser.getLatLng();
+        if(end == null) return;
 
         Routing routing = new Routing.Builder()
                 .travelMode(Routing.TravelMode.DRIVING)
                 .withListener(context)
-                .waypoints(here, usi)
+                .waypoints(user.getLatLng(), end)
                 .key(GoogleAPIService.API_KEY)
                 .build();
         routing.execute();

@@ -9,7 +9,7 @@ module.exports = function (server) {
   io.on('connection', function (socket) {
     console.log("WEE")
 
-    socket.on("identify_me", async (id) => {
+    socket.on("identify_me", async(id) => {
       users[id] = socket
       socket.user_id = id
       console.log("DCAIOENENNE")
@@ -19,7 +19,7 @@ module.exports = function (server) {
       var neighbors = await user.getNeighbors()
       // CHECK: should I remove myself?
       neighbors.shift()
-      neighbors.forEach(async (neighbor) => {
+      neighbors.forEach(async(neighbor) => {
         const socketTemp = users[neighbor._id]
         const isOnline = socketTemp != null
 
@@ -30,8 +30,8 @@ module.exports = function (server) {
             console.log(`${neighbor.email} is asking help`)
             user.dist = neighbor.dist
             socket.emit("help_request", {
-                from: user
-              }) 
+              from: user
+            })
             //   just send to the closest one!
             return
           }
@@ -58,11 +58,13 @@ module.exports = function (server) {
         const isOnline = socket != null
         if (isOnline) {
           // CHECK: we should create a new obj
-          user.dist = neighbor.dist
-          console.log(neighbor.email)
-          socket.emit("help_request", {
-            from: user
-          })
+          if (neighbor.role != "USER") {
+            user.dist = neighbor.dist
+            console.log(neighbor.email)
+            socket.emit("help_request", {
+              from: user
+            })
+          }
         } else {
           // CHECK put a notification?
         }
